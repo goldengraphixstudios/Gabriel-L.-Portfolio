@@ -6,7 +6,7 @@ export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
-  const [cubeRotation, setCubeRotation] = useState({ x: 20, y: 20 });
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const heroRef = useRef(null);
 
   useEffect(() => {
@@ -28,11 +28,9 @@ export default function Portfolio() {
     };
 
     const handleMouseMove = (e) => {
-      if (window.innerWidth > 768) {
-        const x = (e.clientY / window.innerHeight - 0.5) * 40;
-        const y = (e.clientX / window.innerWidth - 0.5) * 40;
-        setCubeRotation({ x, y });
-      }
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      setMousePos({ x, y });
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -358,8 +356,8 @@ export default function Portfolio() {
           width: 100%;
           height: 100%;
           background: 
-            radial-gradient(circle at 20% 50%, rgba(205, 164, 94, 0.03) 0%, transparent 50%),
-            radial-gradient(circle at 80% 50%, rgba(205, 164, 94, 0.03) 0%, transparent 50%);
+            radial-gradient(circle at 20% 50%, rgba(205, 164, 94, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 80% 50%, rgba(205, 164, 94, 0.05) 0%, transparent 50%);
           z-index: 0;
           animation: backgroundPulse 20s ease-in-out infinite;
         }
@@ -369,12 +367,206 @@ export default function Portfolio() {
           50% { opacity: 0.5; }
         }
 
+        /* LEFT SIDE ANIMATIONS */
+        .left-decorations {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 50%;
+          height: 100%;
+          pointer-events: none;
+          z-index: 2;
+          overflow: hidden;
+        }
+
+        .floating-word {
+          position: absolute;
+          font-size: 8rem;
+          font-family: 'Cormorant Garamond', serif;
+          font-weight: 700;
+          color: rgba(205, 164, 94, 0.03);
+          opacity: 0;
+          animation: floatWord 15s ease-in-out infinite;
+        }
+
+        .word-1 {
+          top: 10%;
+          left: 5%;
+          animation-delay: 0s;
+        }
+
+        .word-2 {
+          top: 40%;
+          left: 10%;
+          animation-delay: 5s;
+        }
+
+        .word-3 {
+          top: 70%;
+          left: 5%;
+          animation-delay: 10s;
+        }
+
+        @keyframes floatWord {
+          0%, 100% {
+            opacity: 0;
+            transform: translateY(0) rotate(-5deg);
+          }
+          50% {
+            opacity: 1;
+            transform: translateY(-30px) rotate(5deg);
+          }
+        }
+
+        .geometric-shapes {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+        }
+
+        .shape {
+          position: absolute;
+          border: 2px solid rgba(205, 164, 94, 0.2);
+          animation: rotateShape 20s linear infinite;
+        }
+
+        .shape-1 {
+          width: 100px;
+          height: 100px;
+          top: 20%;
+          left: 15%;
+          animation-delay: 0s;
+        }
+
+        .shape-2 {
+          width: 60px;
+          height: 60px;
+          top: 50%;
+          left: 8%;
+          clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+          animation-delay: 3s;
+        }
+
+        .shape-3 {
+          width: 80px;
+          height: 80px;
+          top: 75%;
+          left: 20%;
+          border-radius: 50%;
+          animation-delay: 6s;
+        }
+
+        @keyframes rotateShape {
+          0% {
+            transform: rotate(0deg) scale(1);
+            opacity: 0.2;
+          }
+          50% {
+            transform: rotate(180deg) scale(1.2);
+            opacity: 0.4;
+          }
+          100% {
+            transform: rotate(360deg) scale(1);
+            opacity: 0.2;
+          }
+        }
+
+        .glowing-lines {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+        }
+
+        .glow-line {
+          position: absolute;
+          height: 2px;
+          background: linear-gradient(90deg, transparent, var(--primary), transparent);
+          box-shadow: 0 0 20px var(--primary);
+          animation: slideGlow 8s ease-in-out infinite;
+        }
+
+        .line-1 {
+          width: 200px;
+          top: 15%;
+          left: -200px;
+          animation-delay: 0s;
+        }
+
+        .line-2 {
+          width: 150px;
+          top: 45%;
+          left: -150px;
+          animation-delay: 3s;
+        }
+
+        .line-3 {
+          width: 180px;
+          top: 75%;
+          left: -180px;
+          animation-delay: 6s;
+        }
+
+        @keyframes slideGlow {
+          0%, 100% {
+            left: -200px;
+            opacity: 0;
+          }
+          50% {
+            left: 30%;
+            opacity: 1;
+          }
+        }
+
+        /* HOLLOW WIREFRAME CUBE - RIGHT SIDE */
+        .wireframe-cube-container {
+          position: absolute;
+          right: 8%;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 300px;
+          height: 300px;
+          perspective: 1200px;
+          z-index: 2;
+        }
+
+        .wireframe-cube {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          transform-style: preserve-3d;
+          transition: transform 0.05s ease-out;
+        }
+
+        .cube-edge {
+          position: absolute;
+          background: var(--primary);
+          box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
+        }
+
+        /* Front face edges */
+        .edge-front-top { width: 150px; height: 3px; transform: translate3d(0, 0, 75px); }
+        .edge-front-bottom { width: 150px; height: 3px; transform: translate3d(0, 150px, 75px); }
+        .edge-front-left { width: 3px; height: 150px; transform: translate3d(0, 0, 75px); }
+        .edge-front-right { width: 3px; height: 150px; transform: translate3d(150px, 0, 75px); }
+
+        /* Back face edges */
+        .edge-back-top { width: 150px; height: 3px; transform: translate3d(0, 0, -75px); }
+        .edge-back-bottom { width: 150px; height: 3px; transform: translate3d(0, 150px, -75px); }
+        .edge-back-left { width: 3px; height: 150px; transform: translate3d(0, 0, -75px); }
+        .edge-back-right { width: 3px; height: 150px; transform: translate3d(150px, 0, -75px); }
+
+        /* Connecting edges */
+        .edge-connect-tl { width: 3px; height: 150px; transform: translate3d(0, 0, 0) rotateY(90deg); }
+        .edge-connect-tr { width: 3px; height: 150px; transform: translate3d(150px, 0, 0) rotateY(90deg); }
+        .edge-connect-bl { width: 3px; height: 150px; transform: translate3d(0, 150px, 0) rotateY(90deg); }
+        .edge-connect-br { width: 3px; height: 150px; transform: translate3d(150px, 150px, 0) rotateY(90deg); }
+
         /* Enhanced Particles */
         .particles-container {
           position: fixed;
           top: 0;
-          right: 0;
-          width: 50%;
+          left: 0;
+          width: 100%;
           height: 100vh;
           pointer-events: none;
           z-index: 1;
@@ -388,7 +580,7 @@ export default function Portfolio() {
           background: var(--primary);
           border-radius: 50%;
           opacity: 0;
-          box-shadow: 0 0 20px var(--primary);
+          box-shadow: 0 0 15px var(--primary);
           animation: floatParticle 15s infinite;
         }
 
@@ -405,7 +597,7 @@ export default function Portfolio() {
           }
           100% {
             opacity: 0;
-            transform: translateY(-100vh) translateX(50px) scale(1.5);
+            transform: translateY(-100vh) translateX(100px) scale(1.5);
           }
         }
 
@@ -424,144 +616,9 @@ export default function Portfolio() {
         .particle:nth-child(13) { left: 45%; animation-delay: 4.2s; animation-duration: 16.5s; }
         .particle:nth-child(14) { left: 55%; animation-delay: 1.8s; animation-duration: 12.8s; }
         .particle:nth-child(15) { left: 65%; animation-delay: 3.2s; animation-duration: 14.2s; }
-
-        /* Floating Decorative Rings */
-        .floating-rings {
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 600px;
-          height: 600px;
-          pointer-events: none;
-          z-index: 1;
-        }
-
-        .ring {
-          position: absolute;
-          border: 1px solid rgba(205, 164, 94, 0.15);
-          border-radius: 50%;
-          animation: floatRing 20s ease-in-out infinite;
-        }
-
-        .ring:nth-child(1) {
-          width: 300px;
-          height: 300px;
-          top: 10%;
-          right: 5%;
-          animation-delay: 0s;
-        }
-
-        .ring:nth-child(2) {
-          width: 200px;
-          height: 200px;
-          top: 40%;
-          right: 15%;
-          animation-delay: 2s;
-        }
-
-        .ring:nth-child(3) {
-          width: 150px;
-          height: 150px;
-          top: 70%;
-          right: 25%;
-          animation-delay: 4s;
-        }
-
-        @keyframes floatRing {
-          0%, 100% {
-            transform: translateY(0) rotate(0deg);
-            opacity: 0.3;
-          }
-          50% {
-            transform: translateY(-30px) rotate(180deg);
-            opacity: 0.6;
-          }
-        }
-
-        /* Interactive 3D Cube in Hero */
-        .hero-cube-container {
-          position: absolute;
-          right: 10%;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 250px;
-          height: 250px;
-          perspective: 1000px;
-          z-index: 2;
-        }
-
-        .hero-cube {
-          width: 100%;
-          height: 100%;
-          position: relative;
-          transform-style: preserve-3d;
-          animation: slowRotate 20s linear infinite;
-          transition: transform 0.1s ease-out;
-        }
-
-        .cube-face {
-          position: absolute;
-          width: 150px;
-          height: 150px;
-          border: 2px solid var(--primary);
-          background: rgba(205, 164, 94, 0.05);
-          backdrop-filter: blur(10px);
-          box-shadow: 0 0 30px rgba(205, 164, 94, 0.3), inset 0 0 30px rgba(205, 164, 94, 0.1);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 3rem;
-        }
-
-        .front  { transform: translateZ(75px); }
-        .back   { transform: translateZ(-75px) rotateY(180deg); }
-        .right  { transform: rotateY(90deg) translateZ(75px); }
-        .left   { transform: rotateY(-90deg) translateZ(75px); }
-        .top    { transform: rotateX(90deg) translateZ(75px); }
-        .bottom { transform: rotateX(-90deg) translateZ(75px); }
-
-        @keyframes slowRotate {
-          0% {
-            transform: rotateX(0) rotateY(0);
-          }
-          100% {
-            transform: rotateX(360deg) rotateY(360deg);
-          }
-        }
-
-        /* Glowing Accent Dots */
-        .glow-dots {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-          z-index: 1;
-        }
-
-        .glow-dot {
-          position: absolute;
-          width: 8px;
-          height: 8px;
-          background: var(--primary);
-          border-radius: 50%;
-          box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
-          animation: pulse 3s ease-in-out infinite;
-        }
-
-        .glow-dot:nth-child(1) { top: 20%; right: 20%; animation-delay: 0s; }
-        .glow-dot:nth-child(2) { top: 50%; right: 10%; animation-delay: 1s; }
-        .glow-dot:nth-child(3) { top: 80%; right: 30%; animation-delay: 2s; }
-
-        @keyframes pulse {
-          0%, 100% {
-            opacity: 0.3;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 1;
-            transform: scale(1.5);
-          }
-        }
+        .particle:nth-child(16) { left: 75%; animation-delay: 1.2s; animation-duration: 14.8s; }
+        .particle:nth-child(17) { left: 85%; animation-delay: 3.8s; animation-duration: 13.2s; }
+        .particle:nth-child(18) { left: 95%; animation-delay: 2.2s; animation-duration: 15.8s; }
 
         .scroll-progress {
           position: fixed;
@@ -574,7 +631,7 @@ export default function Portfolio() {
           box-shadow: 0 0 20px rgba(205, 164, 94, 0.6);
         }
 
-        /* CLOSER PANEL BUTTONS */
+        /* NON-OVERLAPPING PANELS - CLOSER TOGETHER */
         .resume-toggle {
           position: fixed;
           right: 20px;
@@ -1068,13 +1125,14 @@ export default function Portfolio() {
           line-height: 1.1;
           margin-bottom: 2rem;
           background: linear-gradient(135deg, var(--white) 0%, var(--primary) 100%);
+          background-size: 200% 200%;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          animation: fadeInUp 1s ease-out 0.4s both, shimmer 3s ease-in-out infinite;
+          animation: fadeInUp 1s ease-out 0.4s both, gradientShift 5s ease infinite;
         }
 
-        @keyframes shimmer {
+        @keyframes gradientShift {
           0%, 100% {
             background-position: 0% 50%;
           }
@@ -1113,6 +1171,7 @@ export default function Portfolio() {
           transition: all 0.3s ease;
           position: relative;
           overflow: hidden;
+          background: transparent;
         }
 
         .btn-primary {
@@ -1138,7 +1197,6 @@ export default function Portfolio() {
 
         .btn-primary:hover {
           transform: translateY(-3px);
-          box-shadow: 0 10px 30px rgba(205, 164, 94, 0.4);
         }
 
         .btn-secondary {
@@ -1161,7 +1219,6 @@ export default function Portfolio() {
         .btn-secondary:hover {
           color: var(--dark);
           transform: translateY(-3px);
-          box-shadow: 0 10px 30px rgba(205, 164, 94, 0.4);
         }
 
         .btn-secondary:hover::before {
@@ -1201,7 +1258,7 @@ export default function Portfolio() {
           color: var(--primary);
           display: block;
           margin-bottom: 0.5rem;
-          text-shadow: 0 0 20px rgba(205, 164, 94, 0.5);
+          text-shadow: 0 0 30px rgba(205, 164, 94, 0.5);
         }
 
         .stat-label {
@@ -1673,7 +1730,11 @@ export default function Portfolio() {
             right: -500px;
           }
 
-          .hero-cube-container {
+          .wireframe-cube-container {
+            display: none;
+          }
+
+          .left-decorations {
             display: none;
           }
 
@@ -1773,10 +1834,6 @@ export default function Portfolio() {
             flex-direction: column;
             gap: 1rem;
           }
-
-          .floating-rings {
-            display: none;
-          }
         }
 
         .success-message {
@@ -1812,24 +1869,24 @@ export default function Portfolio() {
 
       {/* Enhanced Particles */}
       <div className="particles-container">
-        {[...Array(15)].map((_, i) => (
+        {[...Array(18)].map((_, i) => (
           <div key={i} className="particle"></div>
         ))}
       </div>
 
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
 
-      {/* RESUME BUTTON - 40% */}
+      {/* RESUME BUTTON - 40% (CLOSE TO TOP) */}
       <button className="resume-toggle" onClick={() => {
-        setIsResumeOpen(true);
+        setIsResumeOpen(!isResumeOpen);
         setIsAchievementsOpen(false);
       }}>
         Experience
       </button>
 
-      {/* ACHIEVEMENTS BUTTON - 52% */}
+      {/* ACHIEVEMENTS BUTTON - 52% (CLOSE TO BOTTOM) */}
       <button className="achievements-toggle" onClick={() => {
-        setIsAchievementsOpen(true);
+        setIsAchievementsOpen(!isAchievementsOpen);
         setIsResumeOpen(false);
       }}>
         Achievements
@@ -1954,34 +2011,50 @@ export default function Portfolio() {
       </nav>
 
       <section id="home" ref={heroRef}>
-        {/* Floating Rings */}
-        <div className="floating-rings">
-          <div className="ring"></div>
-          <div className="ring"></div>
-          <div className="ring"></div>
+        {/* LEFT SIDE DECORATIONS */}
+        <div className="left-decorations">
+          <div className="floating-word word-1">CREATE</div>
+          <div className="floating-word word-2">DESIGN</div>
+          <div className="floating-word word-3">MARKET</div>
+          
+          <div className="geometric-shapes">
+            <div className="shape shape-1"></div>
+            <div className="shape shape-2"></div>
+            <div className="shape shape-3"></div>
+          </div>
+
+          <div className="glowing-lines">
+            <div className="glow-line line-1"></div>
+            <div className="glow-line line-2"></div>
+            <div className="glow-line line-3"></div>
+          </div>
         </div>
 
-        {/* Glowing Dots */}
-        <div className="glow-dots">
-          <div className="glow-dot"></div>
-          <div className="glow-dot"></div>
-          <div className="glow-dot"></div>
-        </div>
-
-        {/* Interactive 3D Cube */}
-        <div className="hero-cube-container">
+        {/* HOLLOW WIREFRAME CUBE - RIGHT SIDE */}
+        <div className="wireframe-cube-container">
           <div 
-            className="hero-cube"
+            className="wireframe-cube"
             style={{ 
-              transform: `rotateX(${cubeRotation.x}deg) rotateY(${cubeRotation.y}deg)` 
+              transform: `rotateX(${mousePos.y}deg) rotateY(${mousePos.x}deg)` 
             }}
           >
-            <div className="cube-face front">💼</div>
-            <div className="cube-face back">🎬</div>
-            <div className="cube-face right">🎨</div>
-            <div className="cube-face left">📊</div>
-            <div className="cube-face top">✨</div>
-            <div className="cube-face bottom">🚀</div>
+            {/* Front face */}
+            <div className="cube-edge edge-front-top"></div>
+            <div className="cube-edge edge-front-bottom"></div>
+            <div className="cube-edge edge-front-left"></div>
+            <div className="cube-edge edge-front-right"></div>
+            
+            {/* Back face */}
+            <div className="cube-edge edge-back-top"></div>
+            <div className="cube-edge edge-back-bottom"></div>
+            <div className="cube-edge edge-back-left"></div>
+            <div className="cube-edge edge-back-right"></div>
+            
+            {/* Connecting edges */}
+            <div className="cube-edge edge-connect-tl"></div>
+            <div className="cube-edge edge-connect-tr"></div>
+            <div className="cube-edge edge-connect-bl"></div>
+            <div className="cube-edge edge-connect-br"></div>
           </div>
         </div>
 
@@ -2022,7 +2095,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Rest of sections remain unchanged... */}
       <section id="about">
         <div className="section-header">
           <div className="section-subtitle">About Me</div>
