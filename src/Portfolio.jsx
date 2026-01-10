@@ -6,6 +6,7 @@ export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
+  const [cubeRotation, setCubeRotation] = useState({ x: 20, y: 20 });
   const heroRef = useRef(null);
 
   useEffect(() => {
@@ -26,9 +27,19 @@ export default function Portfolio() {
       if (current) setActiveSection(current);
     };
 
+    const handleMouseMove = (e) => {
+      if (window.innerWidth > 768) {
+        const x = (e.clientY / window.innerHeight - 0.5) * 40;
+        const y = (e.clientX / window.innerWidth - 0.5) * 40;
+        setCubeRotation({ x, y });
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
@@ -358,6 +369,7 @@ export default function Portfolio() {
           50% { opacity: 0.5; }
         }
 
+        /* Enhanced Particles */
         .particles-container {
           position: fixed;
           top: 0;
@@ -371,12 +383,12 @@ export default function Portfolio() {
 
         .particle {
           position: absolute;
-          width: 3px;
-          height: 3px;
+          width: 4px;
+          height: 4px;
           background: var(--primary);
           border-radius: 50%;
           opacity: 0;
-          box-shadow: 0 0 10px var(--primary);
+          box-shadow: 0 0 20px var(--primary);
           animation: floatParticle 15s infinite;
         }
 
@@ -386,10 +398,10 @@ export default function Portfolio() {
             transform: translateY(100vh) translateX(0) scale(0);
           }
           10% {
-            opacity: 0.6;
+            opacity: 0.8;
           }
           90% {
-            opacity: 0.6;
+            opacity: 0.8;
           }
           100% {
             opacity: 0;
@@ -413,6 +425,144 @@ export default function Portfolio() {
         .particle:nth-child(14) { left: 55%; animation-delay: 1.8s; animation-duration: 12.8s; }
         .particle:nth-child(15) { left: 65%; animation-delay: 3.2s; animation-duration: 14.2s; }
 
+        /* Floating Decorative Rings */
+        .floating-rings {
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 600px;
+          height: 600px;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .ring {
+          position: absolute;
+          border: 1px solid rgba(205, 164, 94, 0.15);
+          border-radius: 50%;
+          animation: floatRing 20s ease-in-out infinite;
+        }
+
+        .ring:nth-child(1) {
+          width: 300px;
+          height: 300px;
+          top: 10%;
+          right: 5%;
+          animation-delay: 0s;
+        }
+
+        .ring:nth-child(2) {
+          width: 200px;
+          height: 200px;
+          top: 40%;
+          right: 15%;
+          animation-delay: 2s;
+        }
+
+        .ring:nth-child(3) {
+          width: 150px;
+          height: 150px;
+          top: 70%;
+          right: 25%;
+          animation-delay: 4s;
+        }
+
+        @keyframes floatRing {
+          0%, 100% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 0.3;
+          }
+          50% {
+            transform: translateY(-30px) rotate(180deg);
+            opacity: 0.6;
+          }
+        }
+
+        /* Interactive 3D Cube in Hero */
+        .hero-cube-container {
+          position: absolute;
+          right: 10%;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 250px;
+          height: 250px;
+          perspective: 1000px;
+          z-index: 2;
+        }
+
+        .hero-cube {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          transform-style: preserve-3d;
+          animation: slowRotate 20s linear infinite;
+          transition: transform 0.1s ease-out;
+        }
+
+        .cube-face {
+          position: absolute;
+          width: 150px;
+          height: 150px;
+          border: 2px solid var(--primary);
+          background: rgba(205, 164, 94, 0.05);
+          backdrop-filter: blur(10px);
+          box-shadow: 0 0 30px rgba(205, 164, 94, 0.3), inset 0 0 30px rgba(205, 164, 94, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 3rem;
+        }
+
+        .front  { transform: translateZ(75px); }
+        .back   { transform: translateZ(-75px) rotateY(180deg); }
+        .right  { transform: rotateY(90deg) translateZ(75px); }
+        .left   { transform: rotateY(-90deg) translateZ(75px); }
+        .top    { transform: rotateX(90deg) translateZ(75px); }
+        .bottom { transform: rotateX(-90deg) translateZ(75px); }
+
+        @keyframes slowRotate {
+          0% {
+            transform: rotateX(0) rotateY(0);
+          }
+          100% {
+            transform: rotateX(360deg) rotateY(360deg);
+          }
+        }
+
+        /* Glowing Accent Dots */
+        .glow-dots {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .glow-dot {
+          position: absolute;
+          width: 8px;
+          height: 8px;
+          background: var(--primary);
+          border-radius: 50%;
+          box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
+          animation: pulse 3s ease-in-out infinite;
+        }
+
+        .glow-dot:nth-child(1) { top: 20%; right: 20%; animation-delay: 0s; }
+        .glow-dot:nth-child(2) { top: 50%; right: 10%; animation-delay: 1s; }
+        .glow-dot:nth-child(3) { top: 80%; right: 30%; animation-delay: 2s; }
+
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.5);
+          }
+        }
+
         .scroll-progress {
           position: fixed;
           top: 0;
@@ -424,11 +574,12 @@ export default function Portfolio() {
           box-shadow: 0 0 20px rgba(205, 164, 94, 0.6);
         }
 
-        /* RESUME BUTTON - TOP RIGHT */
+        /* CLOSER PANEL BUTTONS */
         .resume-toggle {
           position: fixed;
           right: 20px;
-          top: 120px;
+          top: 40%;
+          transform: translateY(-50%);
           z-index: 999;
           background: var(--primary);
           color: var(--dark);
@@ -451,11 +602,11 @@ export default function Portfolio() {
           box-shadow: 0 6px 25px rgba(205, 164, 94, 0.5);
         }
 
-        /* ACHIEVEMENTS BUTTON - BOTTOM RIGHT */
         .achievements-toggle {
           position: fixed;
           right: 20px;
-          bottom: 50px;
+          top: 52%;
+          transform: translateY(-50%);
           z-index: 999;
           background: var(--dark-soft);
           color: var(--primary);
@@ -920,7 +1071,16 @@ export default function Portfolio() {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          animation: fadeInUp 1s ease-out 0.4s both;
+          animation: fadeInUp 1s ease-out 0.4s both, shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+          0%, 100% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
         }
 
         .hero-description {
@@ -976,6 +1136,11 @@ export default function Portfolio() {
           left: 0;
         }
 
+        .btn-primary:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 10px 30px rgba(205, 164, 94, 0.4);
+        }
+
         .btn-secondary {
           background: transparent;
           color: var(--primary);
@@ -995,6 +1160,8 @@ export default function Portfolio() {
 
         .btn-secondary:hover {
           color: var(--dark);
+          transform: translateY(-3px);
+          box-shadow: 0 10px 30px rgba(205, 164, 94, 0.4);
         }
 
         .btn-secondary:hover::before {
@@ -1013,6 +1180,18 @@ export default function Portfolio() {
 
         .stat-item {
           text-align: center;
+          animation: scaleIn 0.5s ease-out both;
+        }
+
+        .stat-item:nth-child(1) { animation-delay: 1.2s; }
+        .stat-item:nth-child(2) { animation-delay: 1.4s; }
+        .stat-item:nth-child(3) { animation-delay: 1.6s; }
+
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.8);
+          }
         }
 
         .stat-number {
@@ -1022,6 +1201,7 @@ export default function Portfolio() {
           color: var(--primary);
           display: block;
           margin-bottom: 0.5rem;
+          text-shadow: 0 0 20px rgba(205, 164, 94, 0.5);
         }
 
         .stat-label {
@@ -1493,6 +1673,10 @@ export default function Portfolio() {
             right: -500px;
           }
 
+          .hero-cube-container {
+            display: none;
+          }
+
           .about-content,
           .contact-content {
             grid-template-columns: 1fr;
@@ -1527,14 +1711,14 @@ export default function Portfolio() {
 
           .resume-toggle {
             right: 10px;
-            top: 100px;
+            top: 38%;
             padding: 0.6rem 0.8rem;
             font-size: 0.7rem;
           }
 
           .achievements-toggle {
             right: 10px;
-            bottom: 30px;
+            top: 50%;
             padding: 0.6rem 0.8rem;
             font-size: 0.7rem;
           }
@@ -1589,6 +1773,10 @@ export default function Portfolio() {
             flex-direction: column;
             gap: 1rem;
           }
+
+          .floating-rings {
+            display: none;
+          }
         }
 
         .success-message {
@@ -1622,6 +1810,7 @@ export default function Portfolio() {
         }
       `}</style>
 
+      {/* Enhanced Particles */}
       <div className="particles-container">
         {[...Array(15)].map((_, i) => (
           <div key={i} className="particle"></div>
@@ -1630,7 +1819,7 @@ export default function Portfolio() {
 
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
 
-      {/* RESUME BUTTON - TOP */}
+      {/* RESUME BUTTON - 40% */}
       <button className="resume-toggle" onClick={() => {
         setIsResumeOpen(true);
         setIsAchievementsOpen(false);
@@ -1638,7 +1827,7 @@ export default function Portfolio() {
         Experience
       </button>
 
-      {/* ACHIEVEMENTS BUTTON - BOTTOM */}
+      {/* ACHIEVEMENTS BUTTON - 52% */}
       <button className="achievements-toggle" onClick={() => {
         setIsAchievementsOpen(true);
         setIsResumeOpen(false);
@@ -1765,6 +1954,37 @@ export default function Portfolio() {
       </nav>
 
       <section id="home" ref={heroRef}>
+        {/* Floating Rings */}
+        <div className="floating-rings">
+          <div className="ring"></div>
+          <div className="ring"></div>
+          <div className="ring"></div>
+        </div>
+
+        {/* Glowing Dots */}
+        <div className="glow-dots">
+          <div className="glow-dot"></div>
+          <div className="glow-dot"></div>
+          <div className="glow-dot"></div>
+        </div>
+
+        {/* Interactive 3D Cube */}
+        <div className="hero-cube-container">
+          <div 
+            className="hero-cube"
+            style={{ 
+              transform: `rotateX(${cubeRotation.x}deg) rotateY(${cubeRotation.y}deg)` 
+            }}
+          >
+            <div className="cube-face front">💼</div>
+            <div className="cube-face back">🎬</div>
+            <div className="cube-face right">🎨</div>
+            <div className="cube-face left">📊</div>
+            <div className="cube-face top">✨</div>
+            <div className="cube-face bottom">🚀</div>
+          </div>
+        </div>
+
         <div className="hero-content">
           <div className="hero-text">
             <div className="hero-subtitle">Digital Marketing Specialist</div>
@@ -1802,6 +2022,7 @@ export default function Portfolio() {
         </div>
       </section>
 
+      {/* Rest of sections remain unchanged... */}
       <section id="about">
         <div className="section-header">
           <div className="section-subtitle">About Me</div>
