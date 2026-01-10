@@ -6,7 +6,6 @@ export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
-  const [cubeRotation, setCubeRotation] = useState({ x: 0, y: 0 });
   const heroRef = useRef(null);
 
   useEffect(() => {
@@ -27,19 +26,9 @@ export default function Portfolio() {
       if (current) setActiveSection(current);
     };
 
-    const handleMouseMove = (e) => {
-      if (window.innerWidth > 768) {
-        const x = (e.clientY / window.innerHeight - 0.5) * 60;
-        const y = (e.clientX / window.innerWidth - 0.5) * 60;
-        setCubeRotation({ x, y });
-      }
-    };
-
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('mousemove', handleMouseMove);
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
@@ -270,7 +259,7 @@ export default function Portfolio() {
       title: "Multi-Platform ROI",
       metric: "3.8x Average",
       description: "Demonstrated consistent return on advertising spend across all major platforms",
-      details: "Facebook Ads: 4.2x ROAS | Instagram: 3.9x | Google Ads: 3.4x | LinkedIn: 3.1x on $850K+ total ad spend managed"
+      details: "Facebook Ads: 4.2x ROAS | Instagram: 3.9x | Google Ads: 3.4x | LinkedIn: 3.1x on $125K+ total ad spend managed"
     },
     {
       title: "Traffic Optimization",
@@ -424,108 +413,6 @@ export default function Portfolio() {
         .particle:nth-child(14) { left: 55%; animation-delay: 1.8s; animation-duration: 12.8s; }
         .particle:nth-child(15) { left: 65%; animation-delay: 3.2s; animation-duration: 14.2s; }
 
-        .tesseract-container {
-          position: fixed;
-          right: 15%;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 300px;
-          height: 300px;
-          perspective: 1000px;
-          pointer-events: none;
-          z-index: 2;
-        }
-
-        .tesseract {
-          width: 100%;
-          height: 100%;
-          position: relative;
-          transform-style: preserve-3d;
-          transition: transform 0.1s ease-out;
-        }
-
-        .cube-face {
-          position: absolute;
-          width: 150px;
-          height: 150px;
-          border: 2px solid var(--primary);
-          background: rgba(205, 164, 94, 0.03);
-          box-shadow: 0 0 30px rgba(205, 164, 94, 0.2);
-        }
-
-        .front  { transform: translateZ(75px); }
-        .back   { transform: translateZ(-75px) rotateY(180deg); }
-        .right  { transform: rotateY(90deg) translateZ(75px); }
-        .left   { transform: rotateY(-90deg) translateZ(75px); }
-        .top    { transform: rotateX(90deg) translateZ(75px); }
-        .bottom { transform: rotateX(-90deg) translateZ(75px); }
-
-        .cube-inner {
-          position: absolute;
-          width: 80px;
-          height: 80px;
-          border: 1px solid rgba(205, 164, 94, 0.5);
-          left: 50%;
-          top: 50%;
-          margin-left: -40px;
-          margin-top: -40px;
-        }
-
-        .inner-front  { transform: translateZ(40px); }
-        .inner-back   { transform: translateZ(-40px) rotateY(180deg); }
-        .inner-right  { transform: rotateY(90deg) translateZ(40px); }
-        .inner-left   { transform: rotateY(-90deg) translateZ(40px); }
-        .inner-top    { transform: rotateX(90deg) translateZ(40px); }
-        .inner-bottom { transform: rotateX(-90deg) translateZ(40px); }
-
-        @keyframes rotateCube {
-          0% {
-            transform: rotateX(0) rotateY(0) rotateZ(0);
-          }
-          100% {
-            transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
-          }
-        }
-
-        .tesseract {
-          animation: rotateCube 30s linear infinite;
-        }
-
-        .geo-lines {
-          position: fixed;
-          right: 0;
-          top: 0;
-          width: 50%;
-          height: 100vh;
-          pointer-events: none;
-          z-index: 1;
-          opacity: 0.15;
-        }
-
-        .geo-line {
-          position: absolute;
-          background: linear-gradient(90deg, transparent, var(--primary), transparent);
-          height: 1px;
-          width: 200px;
-          animation: lineMove 8s ease-in-out infinite;
-        }
-
-        @keyframes lineMove {
-          0%, 100% {
-            opacity: 0.3;
-            transform: translateX(0);
-          }
-          50% {
-            opacity: 0.8;
-            transform: translateX(50px);
-          }
-        }
-
-        .geo-line:nth-child(1) { top: 20%; right: 10%; animation-delay: 0s; }
-        .geo-line:nth-child(2) { top: 40%; right: 15%; animation-delay: 2s; }
-        .geo-line:nth-child(3) { top: 60%; right: 20%; animation-delay: 4s; }
-        .geo-line:nth-child(4) { top: 80%; right: 10%; animation-delay: 6s; }
-
         .scroll-progress {
           position: fixed;
           top: 0;
@@ -537,11 +424,11 @@ export default function Portfolio() {
           box-shadow: 0 0 20px rgba(205, 164, 94, 0.6);
         }
 
+        /* RESUME BUTTON - TOP RIGHT */
         .resume-toggle {
           position: fixed;
           right: 20px;
-          top: 45%;
-          transform: translateY(-50%);
+          top: 120px;
           z-index: 999;
           background: var(--primary);
           color: var(--dark);
@@ -560,15 +447,15 @@ export default function Portfolio() {
 
         .resume-toggle:hover {
           background: var(--primary-dark);
-          padding-right: 1.3rem;
+          padding-bottom: 1.3rem;
           box-shadow: 0 6px 25px rgba(205, 164, 94, 0.5);
         }
 
+        /* ACHIEVEMENTS BUTTON - BOTTOM RIGHT */
         .achievements-toggle {
           position: fixed;
           right: 20px;
-          top: 55%;
-          transform: translateY(-50%);
+          bottom: 50px;
           z-index: 999;
           background: var(--dark-soft);
           color: var(--primary);
@@ -588,7 +475,7 @@ export default function Portfolio() {
         .achievements-toggle:hover {
           background: var(--primary);
           color: var(--dark);
-          padding-right: 1.3rem;
+          padding-bottom: 1.3rem;
           box-shadow: 0 6px 25px rgba(205, 164, 94, 0.5);
         }
 
@@ -1606,17 +1493,6 @@ export default function Portfolio() {
             right: -500px;
           }
 
-          .tesseract-container {
-            width: 200px;
-            height: 200px;
-            right: 10%;
-          }
-
-          .cube-face {
-            width: 100px;
-            height: 100px;
-          }
-
           .about-content,
           .contact-content {
             grid-template-columns: 1fr;
@@ -1649,23 +1525,18 @@ export default function Portfolio() {
             right: -100%;
           }
 
-          .resume-toggle,
-          .achievements-toggle {
+          .resume-toggle {
             right: 10px;
+            top: 100px;
             padding: 0.6rem 0.8rem;
             font-size: 0.7rem;
           }
 
-          .resume-toggle {
-            top: 42%;
-          }
-
           .achievements-toggle {
-            top: 58%;
-          }
-
-          .tesseract-container {
-            display: none;
+            right: 10px;
+            bottom: 30px;
+            padding: 0.6rem 0.8rem;
+            font-size: 0.7rem;
           }
 
           .particles-container {
@@ -1757,38 +1628,9 @@ export default function Portfolio() {
         ))}
       </div>
 
-      <div className="geo-lines">
-        <div className="geo-line"></div>
-        <div className="geo-line"></div>
-        <div className="geo-line"></div>
-        <div className="geo-line"></div>
-      </div>
-
-      <div className="tesseract-container">
-        <div 
-          className="tesseract" 
-          style={{ 
-            transform: `rotateX(${cubeRotation.x}deg) rotateY(${cubeRotation.y}deg)` 
-          }}
-        >
-          <div className="cube-face front"></div>
-          <div className="cube-face back"></div>
-          <div className="cube-face right"></div>
-          <div className="cube-face left"></div>
-          <div className="cube-face top"></div>
-          <div className="cube-face bottom"></div>
-          
-          <div className="cube-inner inner-front"></div>
-          <div className="cube-inner inner-back"></div>
-          <div className="cube-inner inner-right"></div>
-          <div className="cube-inner inner-left"></div>
-          <div className="cube-inner inner-top"></div>
-          <div className="cube-inner inner-bottom"></div>
-        </div>
-      </div>
-
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
 
+      {/* RESUME BUTTON - TOP */}
       <button className="resume-toggle" onClick={() => {
         setIsResumeOpen(true);
         setIsAchievementsOpen(false);
@@ -1796,6 +1638,7 @@ export default function Portfolio() {
         Experience
       </button>
 
+      {/* ACHIEVEMENTS BUTTON - BOTTOM */}
       <button className="achievements-toggle" onClick={() => {
         setIsAchievementsOpen(true);
         setIsResumeOpen(false);
@@ -2323,7 +2166,7 @@ Sent from: Portfolio Contact Form
           </div>
           <div className="footer-social">
             <a href="mailto:goldengraphixstudios@gmail.com" className="social-link" aria-label="Email">✉</a>
-            <a href="https://drive.google.com/drive/folders/1cYoTb8mDPcJl5WkJf13xKey-0-papHV?usp=sharing" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Portfolio Drive">📂</a>
+            <a href="https://drive.google.com/drive/folders/1cYoTb8mDPcJl5WkJf13xKKSN-0-papHV?usp=sharing" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Portfolio Drive">📂</a>
             <a href="https://goldengraphixstudios.my.canva.site/main-portfolio" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Online Portfolio">🌐</a>
           </div>
           <div className="footer-text">
