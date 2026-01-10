@@ -6,7 +6,6 @@ export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const heroRef = useRef(null);
 
   useEffect(() => {
@@ -27,17 +26,9 @@ export default function Portfolio() {
       if (current) setActiveSection(current);
     };
 
-    const handleMouseMove = (e) => {
-      const x = (e.clientX / window.innerWidth) * 100;
-      const y = (e.clientY / window.innerHeight) * 100;
-      setMousePos({ x, y });
-    };
-
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('mousemove', handleMouseMove);
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
@@ -367,7 +358,7 @@ export default function Portfolio() {
           50% { opacity: 0.5; }
         }
 
-        /* LEFT SIDE ANIMATIONS */
+        /* LEFT SIDE GLOWING LINES ONLY */
         .left-decorations {
           position: absolute;
           left: 0;
@@ -377,45 +368,6 @@ export default function Portfolio() {
           pointer-events: none;
           z-index: 2;
           overflow: hidden;
-        }
-
-        .floating-word {
-          position: absolute;
-          font-size: 8rem;
-          font-family: 'Cormorant Garamond', serif;
-          font-weight: 700;
-          color: rgba(205, 164, 94, 0.03);
-          opacity: 0;
-          animation: floatWord 15s ease-in-out infinite;
-        }
-
-        .word-1 {
-          top: 10%;
-          left: 5%;
-          animation-delay: 0s;
-        }
-
-        .word-2 {
-          top: 40%;
-          left: 10%;
-          animation-delay: 5s;
-        }
-
-        .word-3 {
-          top: 70%;
-          left: 5%;
-          animation-delay: 10s;
-        }
-
-        @keyframes floatWord {
-          0%, 100% {
-            opacity: 0;
-            transform: translateY(0) rotate(-5deg);
-          }
-          50% {
-            opacity: 1;
-            transform: translateY(-30px) rotate(5deg);
-          }
         }
 
         .geometric-shapes {
@@ -517,50 +469,6 @@ export default function Portfolio() {
           }
         }
 
-        /* HOLLOW WIREFRAME CUBE - RIGHT SIDE */
-        .wireframe-cube-container {
-          position: absolute;
-          right: 8%;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 300px;
-          height: 300px;
-          perspective: 1200px;
-          z-index: 2;
-        }
-
-        .wireframe-cube {
-          width: 100%;
-          height: 100%;
-          position: relative;
-          transform-style: preserve-3d;
-          transition: transform 0.05s ease-out;
-        }
-
-        .cube-edge {
-          position: absolute;
-          background: var(--primary);
-          box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
-        }
-
-        /* Front face edges */
-        .edge-front-top { width: 150px; height: 3px; transform: translate3d(0, 0, 75px); }
-        .edge-front-bottom { width: 150px; height: 3px; transform: translate3d(0, 150px, 75px); }
-        .edge-front-left { width: 3px; height: 150px; transform: translate3d(0, 0, 75px); }
-        .edge-front-right { width: 3px; height: 150px; transform: translate3d(150px, 0, 75px); }
-
-        /* Back face edges */
-        .edge-back-top { width: 150px; height: 3px; transform: translate3d(0, 0, -75px); }
-        .edge-back-bottom { width: 150px; height: 3px; transform: translate3d(0, 150px, -75px); }
-        .edge-back-left { width: 3px; height: 150px; transform: translate3d(0, 0, -75px); }
-        .edge-back-right { width: 3px; height: 150px; transform: translate3d(150px, 0, -75px); }
-
-        /* Connecting edges */
-        .edge-connect-tl { width: 3px; height: 150px; transform: translate3d(0, 0, 0) rotateY(90deg); }
-        .edge-connect-tr { width: 3px; height: 150px; transform: translate3d(150px, 0, 0) rotateY(90deg); }
-        .edge-connect-bl { width: 3px; height: 150px; transform: translate3d(0, 150px, 0) rotateY(90deg); }
-        .edge-connect-br { width: 3px; height: 150px; transform: translate3d(150px, 150px, 0) rotateY(90deg); }
-
         /* Enhanced Particles */
         .particles-container {
           position: fixed;
@@ -631,7 +539,7 @@ export default function Portfolio() {
           box-shadow: 0 0 20px rgba(205, 164, 94, 0.6);
         }
 
-        /* NON-OVERLAPPING PANELS - CLOSER TOGETHER */
+        /* NON-OVERLAPPING PANELS */
         .resume-toggle {
           position: fixed;
           right: 20px;
@@ -1225,6 +1133,57 @@ export default function Portfolio() {
           left: 0;
         }
 
+        /* SAMPLE WORKS BUTTON */
+        .sample-works-section {
+          margin-top: 3rem;
+          animation: fadeInUp 1s ease-out 0.9s both;
+        }
+
+        .sample-works-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.8rem;
+          padding: 1rem 2.5rem;
+          font-size: 0.9rem;
+          font-weight: 600;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          text-decoration: none;
+          border: 2px solid var(--primary);
+          background: var(--dark-soft);
+          color: var(--primary);
+          cursor: pointer;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .sample-works-btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: var(--primary);
+          transition: left 0.3s ease;
+          z-index: 0;
+        }
+
+        .sample-works-btn:hover::before {
+          left: 0;
+        }
+
+        .sample-works-btn:hover {
+          color: var(--dark);
+          transform: translateY(-3px);
+        }
+
+        .sample-works-btn span {
+          position: relative;
+          z-index: 1;
+        }
+
         .hero-stats {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -1730,10 +1689,6 @@ export default function Portfolio() {
             right: -500px;
           }
 
-          .wireframe-cube-container {
-            display: none;
-          }
-
           .left-decorations {
             display: none;
           }
@@ -1876,7 +1831,7 @@ export default function Portfolio() {
 
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
 
-      {/* RESUME BUTTON - 40% (CLOSE TO TOP) */}
+      {/* RESUME BUTTON - 40% */}
       <button className="resume-toggle" onClick={() => {
         setIsResumeOpen(!isResumeOpen);
         setIsAchievementsOpen(false);
@@ -1884,7 +1839,7 @@ export default function Portfolio() {
         Experience
       </button>
 
-      {/* ACHIEVEMENTS BUTTON - 52% (CLOSE TO BOTTOM) */}
+      {/* ACHIEVEMENTS BUTTON - 52% */}
       <button className="achievements-toggle" onClick={() => {
         setIsAchievementsOpen(!isAchievementsOpen);
         setIsResumeOpen(false);
@@ -2011,12 +1966,8 @@ export default function Portfolio() {
       </nav>
 
       <section id="home" ref={heroRef}>
-        {/* LEFT SIDE DECORATIONS */}
+        {/* LEFT SIDE DECORATIONS - GLOWING LINES & SHAPES ONLY */}
         <div className="left-decorations">
-          <div className="floating-word word-1">CREATE</div>
-          <div className="floating-word word-2">DESIGN</div>
-          <div className="floating-word word-3">MARKET</div>
-          
           <div className="geometric-shapes">
             <div className="shape shape-1"></div>
             <div className="shape shape-2"></div>
@@ -2027,34 +1978,6 @@ export default function Portfolio() {
             <div className="glow-line line-1"></div>
             <div className="glow-line line-2"></div>
             <div className="glow-line line-3"></div>
-          </div>
-        </div>
-
-        {/* HOLLOW WIREFRAME CUBE - RIGHT SIDE */}
-        <div className="wireframe-cube-container">
-          <div 
-            className="wireframe-cube"
-            style={{ 
-              transform: `rotateX(${mousePos.y}deg) rotateY(${mousePos.x}deg)` 
-            }}
-          >
-            {/* Front face */}
-            <div className="cube-edge edge-front-top"></div>
-            <div className="cube-edge edge-front-bottom"></div>
-            <div className="cube-edge edge-front-left"></div>
-            <div className="cube-edge edge-front-right"></div>
-            
-            {/* Back face */}
-            <div className="cube-edge edge-back-top"></div>
-            <div className="cube-edge edge-back-bottom"></div>
-            <div className="cube-edge edge-back-left"></div>
-            <div className="cube-edge edge-back-right"></div>
-            
-            {/* Connecting edges */}
-            <div className="cube-edge edge-connect-tl"></div>
-            <div className="cube-edge edge-connect-tr"></div>
-            <div className="cube-edge edge-connect-bl"></div>
-            <div className="cube-edge edge-connect-br"></div>
           </div>
         </div>
 
@@ -2077,6 +2000,19 @@ export default function Portfolio() {
               </button>
             </div>
           </div>
+        </div>
+
+        {/* SAMPLE WORKS BUTTON - ABOVE STATS */}
+        <div className="sample-works-section">
+          <a 
+            href="https://drive.google.com/drive/folders/1cYoTb8mDPcJl5WkJf13xKKSN-0-papHV?usp=sharing" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="sample-works-btn"
+          >
+            <span>📂</span>
+            <span>View Sample Works</span>
+          </a>
         </div>
 
         <div className="hero-stats">
@@ -2309,7 +2245,7 @@ export default function Portfolio() {
           </div>
         </div>
         <div className="portfolio-cta">
-          <a href="https://goldengraphixstudios.my.canva.site/main-portfolio" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+          <a href="https://drive.google.com/drive/folders/1cYoTb8mDPcJl5WkJf13xKKSN-0-papHV?usp=sharing" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
             View Full Portfolio
           </a>
         </div>
@@ -2351,8 +2287,8 @@ export default function Portfolio() {
               <div className="contact-details">
                 <h3>Online Portfolio</h3>
                 <p>
-                  <a href="https://goldengraphixstudios.my.canva.site/main-portfolio" target="_blank" rel="noopener noreferrer">
-                    goldengraphixstudios.my.canva.site
+                  <a href="https://drive.google.com/drive/folders/1cYoTb8mDPcJl5WkJf13xKKSN-0-papHV?usp=sharing" target="_blank" rel="noopener noreferrer">
+                    Complete Work Collection
                   </a>
                 </p>
               </div>
@@ -2460,7 +2396,7 @@ Sent from: Portfolio Contact Form
           <div className="footer-social">
             <a href="mailto:goldengraphixstudios@gmail.com" className="social-link" aria-label="Email">✉</a>
             <a href="https://drive.google.com/drive/folders/1cYoTb8mDPcJl5WkJf13xKKSN-0-papHV?usp=sharing" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Portfolio Drive">📂</a>
-            <a href="https://goldengraphixstudios.my.canva.site/main-portfolio" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Online Portfolio">🌐</a>
+            <a href="https://drive.google.com/drive/folders/1cYoTb8mDPcJl5WkJf13xKKSN-0-papHV?usp=sharing" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Online Portfolio">🌐</a>
           </div>
           <div className="footer-text">
             <p>&copy; 2025 Gabriel Labriaga. All Rights Reserved.</p>
