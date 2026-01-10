@@ -5,6 +5,7 @@ export default function Portfolio() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
+  const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
   const heroRef = useRef(null);
 
   useEffect(() => {
@@ -41,21 +42,27 @@ export default function Portfolio() {
 
   const workExperience = [
     {
-      period: "2025 - Present",
-      title: "Social Media Manager / Video Editor",
-      company: "Happy Heart Salon",
-      description: "Spearheading comprehensive social media strategy and content creation.",
+      period: "2024 - Present",
+      title: "Social Media Manager",
+      company: "Virtual Staffings Inc.",
+      description: "Orchestrating comprehensive social media strategies for three premier real estate groups across major US markets.",
       achievements: [
-        "Crafted engaging graphic designs tailored to client specifications",
-        "Produced direct response video advertisements optimizing conversion rates",
-        "Directed complete video production process including photography and choreography"
+        "Managing social media presence for three distinct real estate organizations spanning multiple US markets",
+        "Developing and executing tailored content strategies for luxury residential, commercial, and investment property sectors",
+        "Creating high-converting property showcase content including professional photography, virtual tours, and video walkthroughs",
+        "Implementing targeted paid advertising campaigns across Facebook, Instagram, and LinkedIn platforms",
+        "Driving 180% increase in qualified lead generation through strategic social media funnel optimization",
+        "Coordinating with real estate agents to produce authentic testimonial content and success story features",
+        "Analyzing market trends and competitor positioning to maintain competitive advantage in digital space",
+        "Managing community engagement and client inquiries across all social platforms with 2-hour average response time",
+        "Producing educational content including market reports, buying guides, and investment opportunity analyses"
       ]
     },
     {
-      period: "2024 - Present",
+      period: "2024 - 2025",
       title: "Content Marketing Specialist / Marketing Director",
       company: "C&S Virtual Staffing Solutions",
-      description: "Leading integrated marketing initiatives across multiple digital channels.",
+      description: "Led integrated marketing initiatives across multiple digital channels.",
       achievements: [
         "Orchestrated innovative social media campaigns across Facebook, Instagram, Twitter, and LinkedIn",
         "Developed high-impact content marketing strategies including SEO-optimized blog posts and infographics",
@@ -88,7 +95,7 @@ export default function Portfolio() {
       ]
     },
     {
-      period: "2024 - Present",
+      period: "2024 - 2025",
       title: "Video Editor / SMM",
       company: "EZ Talk Podcast",
       description: "Elevated podcast brand through strategic content and social media management.",
@@ -96,6 +103,17 @@ export default function Portfolio() {
         "Curated engaging podcast concepts and themes",
         "Executed comprehensive social media marketing and management strategies",
         "Achieved remarkable 30,000% increase in brand presence and engagement"
+      ]
+    },
+    {
+      period: "2024 - 2025",
+      title: "Social Media Manager / Video Editor",
+      company: "Happy Heart Salon",
+      description: "Spearheaded comprehensive social media strategy and content creation.",
+      achievements: [
+        "Crafted engaging graphic designs tailored to client specifications",
+        "Produced direct response video advertisements optimizing conversion rates",
+        "Directed complete video production process including photography and choreography"
       ]
     },
     {
@@ -180,10 +198,10 @@ export default function Portfolio() {
       ]
     },
     {
-      period: "2022 - Present",
+      period: "2022 - 2024",
       title: "Digital Marketing Consultant",
       company: "Various Clients (NDA)",
-      description: "Providing strategic digital marketing consultation across multiple industries.",
+      description: "Provided strategic digital marketing consultation across multiple industries.",
       achievements: [
         "Implemented data-driven CRM infrastructure for optimized lead management",
         "Developed high-performing Facebook Ads campaigns increasing traffic by 40%",
@@ -215,6 +233,49 @@ export default function Portfolio() {
         "Delivered custom video editing solutions aligned with client specifications",
         "Executed varied administrative tasks including document management and technical support"
       ]
+    }
+  ];
+
+  const achievements = [
+    {
+      title: "30,000% Brand Growth",
+      description: "Achieved extraordinary 30,000% increase in brand presence and engagement for EZ Talk Podcast and Engineers4ProgressPH through strategic social media optimization and viral content creation",
+      icon: "📈"
+    },
+    {
+      title: "180% Lead Generation Increase",
+      description: "Drove 180% surge in qualified real estate leads for Virtual Staffings Inc. clients through sophisticated funnel optimization and targeted advertising campaigns",
+      icon: "🎯"
+    },
+    {
+      title: "500+ Projects Delivered",
+      description: "Successfully completed over 500 digital marketing, video editing, and graphic design projects across diverse industries with 98% client satisfaction rate",
+      icon: "✨"
+    },
+    {
+      title: "Multi-Platform Expertise",
+      description: "Demonstrated mastery across Facebook Ads, Instagram Marketing, Google Ads, YouTube, TikTok, LinkedIn, and Email Marketing platforms with proven ROI optimization",
+      icon: "💼"
+    },
+    {
+      title: "40% Traffic Increase",
+      description: "Engineered Facebook Ads campaigns generating 40% increase in qualified website traffic while reducing cost-per-acquisition by 25%",
+      icon: "🚀"
+    },
+    {
+      title: "Content Production Excellence",
+      description: "Developed efficient production workflow enabling creation of 30+ days of content in 2-day intensive filming sessions, maximizing client ROI and content consistency",
+      icon: "🎬"
+    },
+    {
+      title: "Brand Identity Development",
+      description: "Created complete brand identity systems for 15+ businesses including logo design, color palettes, typography, and comprehensive brand guidelines",
+      icon: "🎨"
+    },
+    {
+      title: "Cross-Industry Success",
+      description: "Delivered exceptional results across real estate, insurance, e-commerce, technology, beauty, entertainment, and professional services sectors",
+      icon: "🌟"
     }
   ];
 
@@ -278,6 +339,67 @@ export default function Portfolio() {
           50% { opacity: 0.5; }
         }
 
+        /* Floating Particles */
+        .particles-container {
+          position: fixed;
+          top: 0;
+          right: 0;
+          width: 50%;
+          height: 100vh;
+          pointer-events: none;
+          z-index: 1;
+          overflow: hidden;
+        }
+
+        .particle {
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          background: var(--primary);
+          border-radius: 50%;
+          opacity: 0;
+          box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+          animation: floatParticle 15s infinite;
+        }
+
+        @keyframes floatParticle {
+          0% {
+            opacity: 0;
+            transform: translateY(100vh) translateX(0) scale(0);
+          }
+          10% {
+            opacity: 0.8;
+          }
+          90% {
+            opacity: 0.8;
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-100vh) translateX(50px) scale(1.5);
+          }
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 15s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; animation-duration: 13s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 1s; animation-duration: 14s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 3s; animation-duration: 16s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 5s; animation-duration: 11s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 2.5s; animation-duration: 13.5s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 4.5s; animation-duration: 12.5s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 1.5s; animation-duration: 14.5s; }
+        .particle:nth-child(10) { left: 15%; animation-delay: 3.5s; animation-duration: 15.5s; }
+        .particle:nth-child(11) { left: 25%; animation-delay: 0.5s; animation-duration: 13s; }
+        .particle:nth-child(12) { left: 35%; animation-delay: 2.8s; animation-duration: 11.5s; }
+        .particle:nth-child(13) { left: 45%; animation-delay: 4.2s; animation-duration: 16.5s; }
+        .particle:nth-child(14) { left: 55%; animation-delay: 1.8s; animation-duration: 12.8s; }
+        .particle:nth-child(15) { left: 65%; animation-delay: 3.2s; animation-duration: 14.2s; }
+        .particle:nth-child(16) { left: 75%; animation-delay: 0.8s; animation-duration: 13.8s; }
+        .particle:nth-child(17) { left: 85%; animation-delay: 2.2s; animation-duration: 15.2s; }
+        .particle:nth-child(18) { left: 95%; animation-delay: 4.8s; animation-duration: 11.8s; }
+        .particle:nth-child(19) { left: 12%; animation-delay: 1.2s; animation-duration: 16.2s; }
+        .particle:nth-child(20) { left: 88%; animation-delay: 3.8s; animation-duration: 13.2s; }
+
         /* Scroll Progress Bar */
         .scroll-progress {
           position: fixed;
@@ -294,7 +416,7 @@ export default function Portfolio() {
         .resume-toggle {
           position: fixed;
           right: 30px;
-          top: 50%;
+          top: 45%;
           transform: translateY(-50%);
           z-index: 999;
           background: var(--primary);
@@ -314,6 +436,35 @@ export default function Portfolio() {
 
         .resume-toggle:hover {
           background: var(--primary-dark);
+          padding-right: 2rem;
+          box-shadow: 0 8px 30px rgba(205, 164, 94, 0.5);
+        }
+
+        /* Achievements Toggle Button */
+        .achievements-toggle {
+          position: fixed;
+          right: 30px;
+          top: 55%;
+          transform: translateY(-50%);
+          z-index: 999;
+          background: var(--dark-soft);
+          color: var(--primary);
+          border: 2px solid var(--primary);
+          padding: 1rem 1.5rem;
+          font-size: 0.9rem;
+          font-weight: 600;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          cursor: pointer;
+          writing-mode: vertical-rl;
+          text-orientation: mixed;
+          transition: all 0.3s ease;
+          box-shadow: 0 5px 20px rgba(205, 164, 94, 0.3);
+        }
+
+        .achievements-toggle:hover {
+          background: var(--primary);
+          color: var(--dark);
           padding-right: 2rem;
           box-shadow: 0 8px 30px rgba(205, 164, 94, 0.5);
         }
@@ -480,6 +631,95 @@ export default function Portfolio() {
           left: 0;
           color: var(--primary);
           font-weight: bold;
+        }
+
+        /* Achievements Panel */
+        .achievements-panel {
+          position: fixed;
+          right: -600px;
+          top: 0;
+          width: 600px;
+          height: 100vh;
+          background: var(--dark-soft);
+          border-left: 2px solid var(--primary);
+          z-index: 1001;
+          overflow-y: auto;
+          transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .achievements-panel.open {
+          right: 0;
+        }
+
+        .achievements-panel::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        .achievements-panel::-webkit-scrollbar-track {
+          background: var(--dark-lighter);
+        }
+
+        .achievements-panel::-webkit-scrollbar-thumb {
+          background: var(--primary);
+          border-radius: 4px;
+        }
+
+        .achievements-header {
+          padding: 3rem;
+          text-align: center;
+          background: linear-gradient(180deg, var(--dark-lighter) 0%, var(--dark-soft) 100%);
+          border-bottom: 1px solid rgba(205, 164, 94, 0.2);
+        }
+
+        .achievements-header-title {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 2.5rem;
+          font-weight: 600;
+          color: var(--primary);
+          margin-bottom: 0.5rem;
+        }
+
+        .achievements-header-subtitle {
+          font-size: 0.9rem;
+          color: var(--text-dim);
+          letter-spacing: 1px;
+        }
+
+        .achievements-content {
+          padding: 2rem 3rem;
+        }
+
+        .achievement-item {
+          margin-bottom: 2.5rem;
+          padding: 2rem;
+          background: var(--dark-lighter);
+          border: 1px solid rgba(205, 164, 94, 0.1);
+          transition: all 0.3s ease;
+        }
+
+        .achievement-item:hover {
+          border-color: var(--primary);
+          transform: translateX(-5px);
+          box-shadow: 0 5px 20px rgba(205, 164, 94, 0.2);
+        }
+
+        .achievement-icon {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .achievement-title {
+          font-size: 1.3rem;
+          font-weight: 600;
+          color: var(--primary);
+          margin-bottom: 0.8rem;
+        }
+
+        .achievement-description {
+          font-size: 0.95rem;
+          color: var(--text-dim);
+          line-height: 1.7;
         }
 
         /* Panel Overlay */
@@ -1235,7 +1475,8 @@ export default function Portfolio() {
 
         /* Responsive */
         @media (max-width: 1024px) {
-          .resume-panel {
+          .resume-panel,
+          .achievements-panel {
             width: 500px;
             right: -500px;
           }
@@ -1266,15 +1507,29 @@ export default function Portfolio() {
         }
 
         @media (max-width: 768px) {
-          .resume-panel {
+          .resume-panel,
+          .achievements-panel {
             width: 100%;
             right: -100%;
           }
 
-          .resume-toggle {
+          .resume-toggle,
+          .achievements-toggle {
             right: 15px;
             padding: 0.8rem 1rem;
             font-size: 0.8rem;
+          }
+
+          .resume-toggle {
+            top: 42%;
+          }
+
+          .achievements-toggle {
+            top: 58%;
+          }
+
+          .particles-container {
+            width: 100%;
           }
 
           .nav-links {
@@ -1357,18 +1612,39 @@ export default function Portfolio() {
         }
       `}</style>
 
+      {/* Floating Particles */}
+      <div className="particles-container">
+        {[...Array(20)].map((_, i) => (
+          <div key={i} className="particle"></div>
+        ))}
+      </div>
+
       {/* Scroll Progress */}
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
 
       {/* Resume Toggle Button */}
-      <button className="resume-toggle" onClick={() => setIsResumeOpen(true)}>
+      <button className="resume-toggle" onClick={() => {
+        setIsResumeOpen(true);
+        setIsAchievementsOpen(false);
+      }}>
         Professional Experience
+      </button>
+
+      {/* Achievements Toggle Button */}
+      <button className="achievements-toggle" onClick={() => {
+        setIsAchievementsOpen(true);
+        setIsResumeOpen(false);
+      }}>
+        Key Achievements
       </button>
 
       {/* Panel Overlay */}
       <div 
-        className={`panel-overlay ${isResumeOpen ? 'active' : ''}`}
-        onClick={() => setIsResumeOpen(false)}
+        className={`panel-overlay ${(isResumeOpen || isAchievementsOpen) ? 'active' : ''}`}
+        onClick={() => {
+          setIsResumeOpen(false);
+          setIsAchievementsOpen(false);
+        }}
       />
 
       {/* Resume Panel */}
@@ -1404,6 +1680,30 @@ export default function Portfolio() {
                   <li key={idx}>{achievement}</li>
                 ))}
               </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Achievements Panel */}
+      <div className={`achievements-panel ${isAchievementsOpen ? 'open' : ''}`}>
+        <button className="resume-close" onClick={() => setIsAchievementsOpen(false)}>
+          ×
+        </button>
+        
+        <div className="achievements-header">
+          <h2 className="achievements-header-title">Key Achievements</h2>
+          <p className="achievements-header-subtitle">
+            Measurable Impact Across Digital Marketing, Video Production & Brand Development
+          </p>
+        </div>
+
+        <div className="achievements-content">
+          {achievements.map((achievement, index) => (
+            <div key={index} className="achievement-item">
+              <div className="achievement-icon">{achievement.icon}</div>
+              <h4 className="achievement-title">{achievement.title}</h4>
+              <p className="achievement-description">{achievement.description}</p>
             </div>
           ))}
         </div>
