@@ -254,44 +254,27 @@ export default function Portfolio() {
     return () => clearInterval(autoPlay);
   }, [isCarouselPaused]);
 
-  // TAWK.TO CHATBOT INTEGRATION ✅
-  useEffect(() => {
-    // Your Tawk.to ID (already configured!)
-    const TAWK_TO_ID = '69642916ebb1cc197fdf2e04/1jenk10mn';
+  // TAWK.TO CHATBOT INTEGRATION ✅ (FIXED)
+useEffect(() => {
+  // Prevent duplicate loading (important for React)
+  if (window.Tawk_API) return;
 
-    // Load Tawk.to script
-    var Tawk_API = Tawk_API || {};
-    var Tawk_LoadStart = new Date();
-    
-    (function(){
-      var s1 = document.createElement("script");
-      var s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = `https://embed.tawk.to/${TAWK_TO_ID}/default`;
-      s1.charset = 'UTF-8';
-      s1.setAttribute('crossorigin','*');
-      s0.parentNode.insertBefore(s1,s0);
-    })();
+  window.Tawk_API = window.Tawk_API || {};
+  window.Tawk_LoadStart = new Date();
 
-    // Customize Tawk.to to match luxury gold theme
-    window.Tawk_API = window.Tawk_API || {};
-    window.Tawk_API.onLoad = function(){
-      // Widget is loaded successfully!
-      console.log('✅ Tawk.to chatbot loaded - Ready to chat!');
-    };
+  const s1 = document.createElement("script");
+  s1.async = true;
+  s1.src = "https://embed.tawk.to/69642916ebb1cc197fdf2e04/1jenk10mn";
+  s1.charset = "UTF-8";
+  s1.setAttribute("crossorigin", "*");
 
-    // Cleanup function
-    return () => {
-      // Remove Tawk.to widget when component unmounts
-      const tawkScript = document.querySelector(`script[src*="tawk.to"]`);
-      if (tawkScript) {
-        tawkScript.remove();
-      }
-      if (window.Tawk_API) {
-        delete window.Tawk_API;
-      }
-    };
-  }, []); // Only run once on mount
+  document.body.appendChild(s1);
+
+  window.Tawk_API.onLoad = function () {
+    console.log("✅ Tawk.to widget loaded successfully");
+  };
+}, []);
+ Only run once on mount
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
