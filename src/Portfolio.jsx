@@ -7,6 +7,7 @@ export default function Portfolio() {
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isCarouselPaused, setIsCarouselPaused] = useState(false);
   const heroRef = useRef(null);
 
   // Services for carousel
@@ -86,6 +87,17 @@ export default function Portfolio() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // Auto-play carousel - loops continuously
+  useEffect(() => {
+    if (isCarouselPaused) return;
+
+    const autoPlay = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % Math.ceil(services.length / 3));
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(autoPlay);
+  }, [services.length, isCarouselPaused]);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -364,23 +376,6 @@ export default function Portfolio() {
           padding: 0;
           box-sizing: border-box;
           cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="%23CDA45E" opacity="0.6"/><circle cx="12" cy="12" r="3" fill="%23CDA45E"/></svg>') 12 12, auto;
-        }
-
-        /* SIMPLE CLICK GLOW EFFECT */
-        @keyframes clickGlow {
-          0% {
-            box-shadow: 0 0 0 0 rgba(205, 164, 94, 0.7);
-          }
-          50% {
-            box-shadow: 0 0 30px 15px rgba(205, 164, 94, 0);
-          }
-          100% {
-            box-shadow: 0 0 0 0 rgba(205, 164, 94, 0);
-          }
-        }
-
-        *:active {
-          animation: clickGlow 0.5s ease-out;
         }
 
         a, button, input, select, textarea {
@@ -2464,7 +2459,11 @@ export default function Portfolio() {
           <h2 className="section-title">What I Offer</h2>
         </div>
         
-        <div className="services-carousel-container">
+        <div 
+          className="services-carousel-container"
+          onMouseEnter={() => setIsCarouselPaused(true)}
+          onMouseLeave={() => setIsCarouselPaused(false)}
+        >
           <button className="carousel-arrow prev" onClick={prevSlide} aria-label="Previous services">
             ←
           </button>
