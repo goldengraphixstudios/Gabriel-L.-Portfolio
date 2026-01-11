@@ -1068,6 +1068,7 @@ export default function Portfolio() {
         }
 
         .btn {
+          display: inline-block;
           padding: 1rem 2.5rem;
           font-size: 0.9rem;
           font-weight: 600;
