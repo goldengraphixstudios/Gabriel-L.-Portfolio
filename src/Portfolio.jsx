@@ -87,22 +87,6 @@ export default function Portfolio() {
     };
   }, []);
 
-  // Custom cursor tracking
-  useEffect(() => {
-    const moveCursor = (e) => {
-      const cursor = document.querySelector('body::before');
-      const cursorRing = document.querySelector('body::after');
-      
-      document.documentElement.style.setProperty('--cursor-x', `${e.clientX}px`);
-      document.documentElement.style.setProperty('--cursor-y', `${e.clientY}px`);
-    };
-
-    window.addEventListener('mousemove', moveCursor);
-    return () => {
-      window.removeEventListener('mousemove', moveCursor);
-    };
-  }, []);
-
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -379,69 +363,28 @@ export default function Portfolio() {
           margin: 0;
           padding: 0;
           box-sizing: border-box;
-          cursor: none;
+          cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="%23CDA45E" opacity="0.6"/><circle cx="12" cy="12" r="3" fill="%23CDA45E"/></svg>') 12 12, auto;
         }
 
-        html {
-          --cursor-x: 50%;
-          --cursor-y: 50%;
-        }
-
-        /* PREMIUM CUSTOM CURSOR */
-        body::before {
-          content: '';
-          position: fixed;
-          width: 12px;
-          height: 12px;
-          background: var(--primary);
-          border-radius: 50%;
-          pointer-events: none;
-          z-index: 10000;
-          left: var(--cursor-x);
-          top: var(--cursor-y);
-          transform: translate(-50%, -50%);
-          box-shadow: 
-            0 0 20px rgba(205, 164, 94, 0.8),
-            0 0 40px rgba(205, 164, 94, 0.4);
-          animation: cursorPulse 2s ease-in-out infinite;
-        }
-
-        body::after {
-          content: '';
-          position: fixed;
-          width: 40px;
-          height: 40px;
-          border: 2px solid rgba(205, 164, 94, 0.5);
-          border-radius: 50%;
-          pointer-events: none;
-          z-index: 10000;
-          left: var(--cursor-x);
-          top: var(--cursor-y);
-          transform: translate(-50%, -50%);
-          transition: all 0.15s ease-out;
-        }
-
-        @keyframes cursorPulse {
-          0%, 100% {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
+        /* SIMPLE CLICK GLOW EFFECT */
+        @keyframes clickGlow {
+          0% {
+            box-shadow: 0 0 0 0 rgba(205, 164, 94, 0.7);
           }
           50% {
-            transform: translate(-50%, -50%) scale(1.2);
-            opacity: 0.8;
+            box-shadow: 0 0 30px 15px rgba(205, 164, 94, 0);
+          }
+          100% {
+            box-shadow: 0 0 0 0 rgba(205, 164, 94, 0);
           }
         }
 
-        a, button, input, select, textarea, .clickable {
-          cursor: none;
+        *:active {
+          animation: clickGlow 0.5s ease-out;
         }
 
-        a:hover,
-        button:hover,
-        .clickable:hover,
-        .service-card:hover,
-        .carousel-arrow:hover {
-          cursor: none;
+        a, button, input, select, textarea {
+          cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="%23CDA45E" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="%23CDA45E"/></svg>') 12 12, pointer;
         }
 
         :root {
@@ -1448,6 +1391,165 @@ export default function Portfolio() {
         #services {
           padding: 120px 5%;
           background: var(--dark);
+          position: relative;
+          overflow: hidden;
+        }
+
+        /* ANIMATED BACKGROUND ELEMENTS */
+        #services::before {
+          content: '';
+          position: absolute;
+          width: 600px;
+          height: 600px;
+          background: radial-gradient(circle, rgba(205, 164, 94, 0.08) 0%, transparent 70%);
+          top: -200px;
+          left: -100px;
+          border-radius: 50%;
+          animation: floatBackground1 20s ease-in-out infinite;
+          z-index: 1;
+        }
+
+        #services::after {
+          content: '';
+          position: absolute;
+          width: 500px;
+          height: 500px;
+          background: radial-gradient(circle, rgba(205, 164, 94, 0.06) 0%, transparent 70%);
+          bottom: -150px;
+          right: -80px;
+          border-radius: 50%;
+          animation: floatBackground2 25s ease-in-out infinite;
+          z-index: 1;
+        }
+
+        @keyframes floatBackground1 {
+          0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.5;
+          }
+          33% {
+            transform: translate(100px, 80px) scale(1.1);
+            opacity: 0.7;
+          }
+          66% {
+            transform: translate(-50px, 120px) scale(0.9);
+            opacity: 0.6;
+          }
+        }
+
+        @keyframes floatBackground2 {
+          0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.4;
+          }
+          33% {
+            transform: translate(-80px, -60px) scale(1.15);
+            opacity: 0.6;
+          }
+          66% {
+            transform: translate(70px, -100px) scale(0.95);
+            opacity: 0.5;
+          }
+        }
+
+        .section-header {
+          position: relative;
+          z-index: 2;
+        }
+
+        /* FLOATING GEOMETRIC SHAPES */
+        .services-shapes {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          z-index: 1;
+          pointer-events: none;
+        }
+
+        .floating-shape {
+          position: absolute;
+          border: 2px solid rgba(205, 164, 94, 0.15);
+          opacity: 0.6;
+        }
+
+        .shape-circle {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          top: 15%;
+          right: 10%;
+          animation: floatShape1 15s ease-in-out infinite;
+        }
+
+        .shape-square {
+          width: 100px;
+          height: 100px;
+          top: 60%;
+          left: 8%;
+          transform: rotate(45deg);
+          animation: floatShape2 18s ease-in-out infinite;
+        }
+
+        .shape-triangle {
+          width: 0;
+          height: 0;
+          border-left: 60px solid transparent;
+          border-right: 60px solid transparent;
+          border-bottom: 100px solid rgba(205, 164, 94, 0.1);
+          border-top: 0;
+          top: 35%;
+          right: 20%;
+          animation: floatShape3 20s ease-in-out infinite;
+        }
+
+        .shape-hexagon {
+          width: 80px;
+          height: 80px;
+          clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+          background: rgba(205, 164, 94, 0.08);
+          top: 70%;
+          right: 15%;
+          animation: floatShape4 22s ease-in-out infinite;
+        }
+
+        @keyframes floatShape1 {
+          0%, 100% {
+            transform: translate(0, 0) rotate(0deg);
+          }
+          50% {
+            transform: translate(30px, -40px) rotate(180deg);
+          }
+        }
+
+        @keyframes floatShape2 {
+          0%, 100% {
+            transform: translate(0, 0) rotate(45deg);
+          }
+          50% {
+            transform: translate(-40px, 30px) rotate(225deg);
+          }
+        }
+
+        @keyframes floatShape3 {
+          0%, 100% {
+            transform: translate(0, 0) rotate(0deg);
+            opacity: 0.3;
+          }
+          50% {
+            transform: translate(25px, 35px) rotate(180deg);
+            opacity: 0.6;
+          }
+        }
+
+        @keyframes floatShape4 {
+          0%, 100% {
+            transform: translate(0, 0) rotate(0deg) scale(1);
+          }
+          50% {
+            transform: translate(-30px, -25px) rotate(120deg) scale(1.2);
+          }
         }
 
         /* PREMIUM SERVICES CAROUSEL */
@@ -1456,6 +1558,7 @@ export default function Portfolio() {
           margin: 0 auto;
           position: relative;
           padding: 0 80px;
+          z-index: 2;
         }
 
         .services-carousel {
@@ -2348,6 +2451,14 @@ export default function Portfolio() {
       </section>
 
       <section id="services">
+        {/* Floating Geometric Shapes */}
+        <div className="services-shapes">
+          <div className="floating-shape shape-circle"></div>
+          <div className="floating-shape shape-square"></div>
+          <div className="floating-shape shape-triangle"></div>
+          <div className="floating-shape shape-hexagon"></div>
+        </div>
+
         <div className="section-header">
           <div className="section-subtitle">Services</div>
           <h2 className="section-title">What I Offer</h2>
