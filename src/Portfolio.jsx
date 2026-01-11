@@ -6,8 +6,9 @@ export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(1); // Start at 1 (first real slide)
   const [isCarouselPaused, setIsCarouselPaused] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const heroRef = useRef(null);
 
   // Services for carousel
@@ -56,12 +57,68 @@ export default function Portfolio() {
     }
   ];
 
+  // Calculate slides (3 cards per slide)
+  const itemsPerSlide = 3;
+  const totalSlides = Math.ceil(services.length / itemsPerSlide);
+
+  // Create infinite loop: [last slide, ...all slides, first slide]
+  const getExtendedSlides = () => {
+    const slides = [];
+    
+    // Add last slide at the beginning (for seamless loop)
+    const lastSlideIndex = totalSlides - 1;
+    slides.push({
+      services: services.slice(lastSlideIndex * itemsPerSlide, lastSlideIndex * itemsPerSlide + itemsPerSlide),
+      isClone: true,
+      realIndex: lastSlideIndex
+    });
+
+    // Add all real slides
+    for (let i = 0; i < totalSlides; i++) {
+      slides.push({
+        services: services.slice(i * itemsPerSlide, i * itemsPerSlide + itemsPerSlide),
+        isClone: false,
+        realIndex: i
+      });
+    }
+
+    // Add first slide at the end (for seamless loop)
+    slides.push({
+      services: services.slice(0, itemsPerSlide),
+      isClone: true,
+      realIndex: 0
+    });
+
+    return slides;
+  };
+
+  const extendedSlides = getExtendedSlides();
+
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % Math.ceil(services.length / 3));
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentSlide((prev) => prev + 1);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + Math.ceil(services.length / 3)) % Math.ceil(services.length / 3));
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentSlide((prev) => prev - 1);
+  };
+
+  // Handle transition end - reset to real slide if on clone
+  const handleTransitionEnd = () => {
+    setIsTransitioning(false);
+    
+    // If at last clone (end), jump to first real slide
+    if (currentSlide === extendedSlides.length - 1) {
+      setCurrentSlide(1);
+    }
+    
+    // If at first clone (beginning), jump to last real slide
+    if (currentSlide === 0) {
+      setCurrentSlide(totalSlides);
+    }
   };
 
   useEffect(() => {
@@ -93,11 +150,11 @@ export default function Portfolio() {
     if (isCarouselPaused) return;
 
     const autoPlay = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % Math.ceil(services.length / 3));
+      nextSlide();
     }, 5000); // Change slide every 5 seconds
 
     return () => clearInterval(autoPlay);
-  }, [services.length, isCarouselPaused]);
+  }, [isCarouselPaused]);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -1563,7 +1620,6 @@ export default function Portfolio() {
 
         .services-track {
           display: flex;
-          transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
           gap: 3rem;
         }
 
@@ -2471,11 +2527,15 @@ export default function Portfolio() {
           <div className="services-carousel">
             <div 
               className="services-track" 
-              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              style={{ 
+                transform: `translateX(-${currentSlide * 100}%)`,
+                transition: isTransitioning ? 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
+              }}
+              onTransitionEnd={handleTransitionEnd}
             >
-              {Array.from({ length: Math.ceil(services.length / 3) }, (_, slideIndex) => (
+              {extendedSlides.map((slide, slideIndex) => (
                 <div className="services-grid" key={slideIndex}>
-                  {services.slice(slideIndex * 3, slideIndex * 3 + 3).map((service, index) => (
+                  {slide.services.map((service, index) => (
                     <div className="service-card" key={index}>
                       <div className="service-icon">{service.icon}</div>
                       <h3 className="service-title">{service.title}</h3>
@@ -2497,11 +2557,14 @@ export default function Portfolio() {
           </button>
 
           <div className="carousel-dots">
-            {Array.from({ length: Math.ceil(services.length / 3) }, (_, index) => (
+            {Array.from({ length: totalSlides }, (_, index) => (
               <div
                 key={index}
-                className={`carousel-dot ${currentSlide === index ? 'active' : ''}`}
-                onClick={() => setCurrentSlide(index)}
+                className={`carousel-dot ${currentSlide === index + 1 ? 'active' : ''}`}
+                onClick={() => {
+                  setIsTransitioning(true);
+                  setCurrentSlide(index + 1);
+                }}
               />
             ))}
           </div>
