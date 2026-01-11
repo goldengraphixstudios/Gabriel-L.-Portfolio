@@ -1136,8 +1136,8 @@ export default function Portfolio() {
         /* SAMPLE WORKS BUTTON - RIGHT SIDE ABOVE STATS */
         .sample-works-wrapper {
           position: absolute;
-          right: 5%;
-          bottom: 400px;
+          right: 15%;
+          bottom: 500px;
           z-index: 4;
           animation: fadeInUp 1s ease-out 0.9s both;
         }
