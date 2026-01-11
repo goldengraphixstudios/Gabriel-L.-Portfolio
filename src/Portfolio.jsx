@@ -254,6 +254,45 @@ export default function Portfolio() {
     return () => clearInterval(autoPlay);
   }, [isCarouselPaused]);
 
+  // TAWK.TO CHATBOT INTEGRATION ✅
+  useEffect(() => {
+    // Your Tawk.to ID (already configured!)
+    const TAWK_TO_ID = '69642916ebb1cc197fdf2e04/1jenk10mn';
+
+    // Load Tawk.to script
+    var Tawk_API = Tawk_API || {};
+    var Tawk_LoadStart = new Date();
+    
+    (function(){
+      var s1 = document.createElement("script");
+      var s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = `https://embed.tawk.to/${TAWK_TO_ID}/default`;
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
+
+    // Customize Tawk.to to match luxury gold theme
+    window.Tawk_API = window.Tawk_API || {};
+    window.Tawk_API.onLoad = function(){
+      // Widget is loaded successfully!
+      console.log('✅ Tawk.to chatbot loaded - Ready to chat!');
+    };
+
+    // Cleanup function
+    return () => {
+      // Remove Tawk.to widget when component unmounts
+      const tawkScript = document.querySelector(`script[src*="tawk.to"]`);
+      if (tawkScript) {
+        tawkScript.remove();
+      }
+      if (window.Tawk_API) {
+        delete window.Tawk_API;
+      }
+    };
+  }, []); // Only run once on mount
+
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
