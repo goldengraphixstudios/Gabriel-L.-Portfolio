@@ -273,8 +273,8 @@ useEffect(() => {
   window.Tawk_API.onLoad = function () {
     console.log("✅ Tawk.to widget loaded successfully");
   };
-}, []);
- Only run once on mount
+}, []); // Only run once on mount
+
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
