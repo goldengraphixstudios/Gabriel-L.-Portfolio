@@ -532,11 +532,16 @@ export default function Portfolio() {
           position: fixed;
           top: 0;
           left: 0;
-          height: 3px;
-          background: linear-gradient(90deg, var(--primary), var(--accent));
+          height: 4px;
+          background: linear-gradient(90deg, 
+            var(--primary) 0%, 
+            #E8C78F 50%,
+            var(--primary) 100%);
           z-index: 9999;
           transition: width 0.1s ease;
-          box-shadow: 0 0 20px rgba(205, 164, 94, 0.6);
+          box-shadow: 
+            0 0 20px rgba(205, 164, 94, 0.8),
+            0 0 40px rgba(205, 164, 94, 0.4);
         }
 
         /* PANELS WITH LARGE GAP - SAME SIZE */
@@ -889,9 +894,10 @@ export default function Portfolio() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          background: rgba(10, 10, 10, 0.95);
-          backdrop-filter: blur(20px);
-          border-bottom: 1px solid rgba(205, 164, 94, 0.1);
+          background: rgba(10, 10, 10, 0.98);
+          backdrop-filter: blur(30px) saturate(180%);
+          border-bottom: 1px solid rgba(205, 164, 94, 0.15);
+          box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
           animation: slideDown 0.8s ease-out;
         }
 
@@ -1069,48 +1075,37 @@ export default function Portfolio() {
 
         .btn {
           display: inline-block;
-          padding: 1rem 2.5rem;
-          font-size: 0.9rem;
-          font-weight: 600;
-          letter-spacing: 2px;
+          padding: 1.1rem 2.8rem;
+          font-size: 0.85rem;
+          font-weight: 700;
+          letter-spacing: 2.5px;
           text-transform: uppercase;
           text-decoration: none;
           border: 2px solid var(--primary);
+          border-radius: 6px;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           overflow: hidden;
           background: transparent;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .btn-primary {
-          background: var(--primary);
+          background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
           color: var(--dark);
-        }
-
-        .btn-primary::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: var(--primary-dark);
-          transition: left 0.3s ease;
-          z-index: -1;
-        }
-
-        .btn-primary:hover::before {
-          left: 0;
+          box-shadow: 0 4px 20px rgba(205, 164, 94, 0.4);
         }
 
         .btn-primary:hover {
-          transform: translateY(-3px);
+          transform: translateY(-4px);
+          box-shadow: 0 8px 30px rgba(205, 164, 94, 0.6);
         }
 
         .btn-secondary {
-          background: transparent;
+          background: rgba(205, 164, 94, 0.05);
           color: var(--primary);
+          backdrop-filter: blur(10px);
         }
 
         .btn-secondary::before {
@@ -1330,12 +1325,14 @@ export default function Portfolio() {
         }
 
         .service-card {
-          padding: 3rem;
-          background: var(--dark-soft);
-          border: 1px solid rgba(205, 164, 94, 0.1);
-          transition: all 0.4s ease;
+          padding: 3.5rem;
+          background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(18, 18, 18, 0.95) 100%);
+          border: 1px solid rgba(205, 164, 94, 0.15);
+          border-radius: 8px;
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           overflow: hidden;
+          backdrop-filter: blur(10px);
         }
 
         .service-card::before {
@@ -1345,8 +1342,8 @@ export default function Portfolio() {
           left: -100%;
           width: 100%;
           height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(205, 164, 94, 0.1), transparent);
-          transition: left 0.6s ease;
+          background: linear-gradient(90deg, transparent, rgba(205, 164, 94, 0.08), transparent);
+          transition: left 0.8s ease;
         }
 
         .service-card:hover::before {
@@ -1355,8 +1352,11 @@ export default function Portfolio() {
 
         .service-card:hover {
           border-color: var(--primary);
-          transform: translateY(-10px);
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+          transform: translateY(-12px) scale(1.02);
+          box-shadow: 
+            0 25px 50px rgba(0, 0, 0, 0.7),
+            0 0 0 1px rgba(205, 164, 94, 0.5),
+            inset 0 0 60px rgba(205, 164, 94, 0.05);
         }
 
         .service-icon {
@@ -2205,6 +2205,20 @@ export default function Portfolio() {
               <li>Performance Tracking</li>
             </ul>
           </div>
+
+          <div className="service-card">
+            <div className="service-icon">💻</div>
+            <h3 className="service-title">Website Development</h3>
+            <p className="service-description">
+              Professional, responsive websites that convert visitors into customers
+            </p>
+            <ul className="service-features">
+              <li>Custom Website Design & Development</li>
+              <li>E-commerce Solutions</li>
+              <li>Landing Page Optimization</li>
+              <li>Mobile-Responsive Design</li>
+            </ul>
+          </div>
         </div>
       </section>
 
@@ -2355,6 +2369,7 @@ export default function Portfolio() {
                 <option value="paid-advertising">Paid Advertising</option>
                 <option value="content-marketing">Content Marketing</option>
                 <option value="growth-strategy">Growth Strategy</option>
+                <option value="website-development">Website Development</option>
                 <option value="multiple">Multiple Services</option>
               </select>
             </div>
