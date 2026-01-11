@@ -1,5 +1,132 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+// Custom SVG Icon Component
+const CustomIcon = ({ type }) => {
+  const iconGradient = (id) => (
+    <linearGradient id={id} x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#FFD966" />
+      <stop offset="50%" stopColor="#D4AF37" />
+      <stop offset="100%" stopColor="#B29E82" />
+    </linearGradient>
+  );
+
+  const glowFilter = (
+    <filter id="iconGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  );
+
+  const icons = {
+    socialMedia: (
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <defs>
+          {iconGradient('gold1')}
+          {glowFilter}
+        </defs>
+        <circle cx="24" cy="24" r="18" stroke="url(#gold1)" strokeWidth="2" fill="none" filter="url(#iconGlow)"/>
+        <circle cx="24" cy="24" r="4" fill="url(#gold1)" filter="url(#iconGlow)"/>
+        <circle cx="12" cy="16" r="3" fill="url(#gold1)" opacity="0.8"/>
+        <circle cx="36" cy="16" r="3" fill="url(#gold1)" opacity="0.8"/>
+        <circle cx="12" cy="32" r="3" fill="url(#gold1)" opacity="0.8"/>
+        <circle cx="36" cy="32" r="3" fill="url(#gold1)" opacity="0.8"/>
+        <line x1="24" y1="24" x2="12" y2="16" stroke="url(#gold1)" strokeWidth="1.5" opacity="0.6"/>
+        <line x1="24" y1="24" x2="36" y2="16" stroke="url(#gold1)" strokeWidth="1.5" opacity="0.6"/>
+        <line x1="24" y1="24" x2="12" y2="32" stroke="url(#gold1)" strokeWidth="1.5" opacity="0.6"/>
+        <line x1="24" y1="24" x2="36" y2="32" stroke="url(#gold1)" strokeWidth="1.5" opacity="0.6"/>
+      </svg>
+    ),
+    video: (
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <defs>
+          {iconGradient('gold2')}
+          {glowFilter}
+        </defs>
+        <rect x="8" y="14" width="28" height="20" rx="2" stroke="url(#gold2)" strokeWidth="2" fill="none" filter="url(#iconGlow)"/>
+        <polygon points="19,21 19,27 26,24" fill="url(#gold2)" filter="url(#iconGlow)"/>
+        <path d="M36 18 L42 14 L42 34 L36 30" stroke="url(#gold2)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" filter="url(#iconGlow)"/>
+        <circle cx="11" cy="17" r="1.5" fill="#FFD966" filter="url(#iconGlow)"/>
+        <circle cx="15" cy="17" r="1.5" fill="#FFD966" filter="url(#iconGlow)"/>
+      </svg>
+    ),
+    design: (
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <defs>
+          {iconGradient('gold3')}
+          {glowFilter}
+        </defs>
+        <path d="M32 12 L36 20 L28 20 Z" fill="url(#gold3)" filter="url(#iconGlow)"/>
+        <circle cx="16" cy="32" r="6" stroke="url(#gold3)" strokeWidth="2" fill="none" filter="url(#iconGlow)"/>
+        <rect x="26" y="26" width="12" height="12" stroke="url(#gold3)" strokeWidth="2" fill="none" filter="url(#iconGlow)"/>
+        <path d="M10 16 L16 10 L22 16 L16 22 Z" stroke="url(#gold3)" strokeWidth="2" fill="none" filter="url(#iconGlow)"/>
+      </svg>
+    ),
+    ads: (
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <defs>
+          {iconGradient('gold4')}
+          {glowFilter}
+        </defs>
+        <rect x="10" y="12" width="28" height="24" rx="2" stroke="url(#gold4)" strokeWidth="2" fill="none" filter="url(#iconGlow)"/>
+        <line x1="10" y1="20" x2="38" y2="20" stroke="url(#gold4)" strokeWidth="2"/>
+        <circle cx="24" cy="28" r="5" stroke="url(#gold4)" strokeWidth="2" fill="none" filter="url(#iconGlow)"/>
+        <path d="M24 24 L24 32 M20 28 L28 28" stroke="url(#gold4)" strokeWidth="2" strokeLinecap="round"/>
+        <line x1="15" y1="16" x2="18" y2="16" stroke="url(#gold4)" strokeWidth="2" strokeLinecap="round"/>
+      </svg>
+    ),
+    content: (
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <defs>
+          {iconGradient('gold5')}
+          {glowFilter}
+        </defs>
+        <rect x="12" y="8" width="24" height="32" rx="2" stroke="url(#gold5)" strokeWidth="2" fill="none" filter="url(#iconGlow)"/>
+        <line x1="16" y1="16" x2="32" y2="16" stroke="url(#gold5)" strokeWidth="2" strokeLinecap="round"/>
+        <line x1="16" y1="22" x2="32" y2="22" stroke="url(#gold5)" strokeWidth="1.5" strokeLinecap="round" opacity="0.7"/>
+        <line x1="16" y1="27" x2="28" y2="27" stroke="url(#gold5)" strokeWidth="1.5" strokeLinecap="round" opacity="0.7"/>
+        <line x1="16" y1="32" x2="26" y2="32" stroke="url(#gold5)" strokeWidth="1.5" strokeLinecap="round" opacity="0.5"/>
+        <path d="M20 12 L20 6 L28 6 L28 12" stroke="url(#gold5)" strokeWidth="2" strokeLinecap="round"/>
+      </svg>
+    ),
+    growth: (
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <defs>
+          {iconGradient('gold6')}
+          {glowFilter}
+        </defs>
+        <polyline points="10,35 16,28 22,30 28,20 34,24 40,12" stroke="url(#gold6)" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" filter="url(#iconGlow)"/>
+        <circle cx="10" cy="35" r="2" fill="url(#gold6)" filter="url(#iconGlow)"/>
+        <circle cx="16" cy="28" r="2" fill="url(#gold6)" filter="url(#iconGlow)"/>
+        <circle cx="22" cy="30" r="2" fill="url(#gold6)" filter="url(#iconGlow)"/>
+        <circle cx="28" cy="20" r="2" fill="url(#gold6)" filter="url(#iconGlow)"/>
+        <circle cx="34" cy="24" r="2" fill="url(#gold6)" filter="url(#iconGlow)"/>
+        <circle cx="40" cy="12" r="2" fill="url(#gold6)" filter="url(#iconGlow)"/>
+        <path d="M36 12 L40 12 L40 16" stroke="url(#gold6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    ),
+    website: (
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <defs>
+          {iconGradient('gold7')}
+          {glowFilter}
+        </defs>
+        <rect x="8" y="10" width="32" height="28" rx="2" stroke="url(#gold7)" strokeWidth="2" fill="none" filter="url(#iconGlow)"/>
+        <line x1="8" y1="18" x2="40" y2="18" stroke="url(#gold7)" strokeWidth="2"/>
+        <circle cx="12" cy="14" r="1.5" fill="url(#gold7)"/>
+        <circle cx="16" cy="14" r="1.5" fill="url(#gold7)"/>
+        <circle cx="20" cy="14" r="1.5" fill="url(#gold7)"/>
+        <path d="M16 26 L20 30 L16 34" stroke="url(#gold7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" filter="url(#iconGlow)"/>
+        <path d="M24 26 L28 30 L24 34" stroke="url(#gold7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" filter="url(#iconGlow)"/>
+      </svg>
+    )
+  };
+
+  return icons[type] || null;
+};
+
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState('home');
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -12,46 +139,46 @@ export default function Portfolio() {
   const heroRef = useRef(null);
   const trackRef = useRef(null);
 
-  // Services for carousel
+  // Services for carousel with custom icon types
   const services = [
     {
-      icon: "📱",
+      iconType: "socialMedia",
       title: "Social Media Marketing",
       description: "Comprehensive social media strategies that build communities and drive engagement",
       features: ["Content Strategy & Planning", "Community Management", "Social Media Analytics", "Influencer Partnerships"]
     },
     {
-      icon: "🎬",
+      iconType: "video",
       title: "Video Production",
       description: "Professional video editing and production that brings your vision to life",
       features: ["Video Editing & Post-Production", "Motion Graphics & Animation", "Color Grading & Sound Design", "YouTube Content Creation"]
     },
     {
-      icon: "🎨",
+      iconType: "design",
       title: "Graphic Design",
       description: "Stunning visual designs that communicate your brand message effectively",
       features: ["Brand Identity Design", "Marketing Materials", "Social Media Graphics", "Print & Digital Assets"]
     },
     {
-      icon: "📊",
+      iconType: "ads",
       title: "Paid Advertising",
       description: "Targeted ad campaigns that maximize ROI and drive conversions",
       features: ["Facebook & Instagram Ads", "Google Ads Management", "Campaign Optimization", "Performance Analytics"]
     },
     {
-      icon: "✍️",
+      iconType: "content",
       title: "Content Marketing",
       description: "Compelling content that tells your story and engages your audience",
       features: ["Content Strategy", "Copywriting", "Blog & Article Writing", "SEO Optimization"]
     },
     {
-      icon: "🚀",
+      iconType: "growth",
       title: "Growth Strategy",
       description: "Comprehensive digital strategies that scale your business",
       features: ["Marketing Audits", "Growth Planning", "Funnel Optimization", "Performance Tracking"]
     },
     {
-      icon: "💻",
+      iconType: "website",
       title: "Website Development",
       description: "Professional, responsive websites that convert visitors into customers",
       features: ["Custom Website Design & Development", "E-commerce Solutions", "Landing Page Optimization", "Mobile-Responsive Design"]
@@ -397,7 +524,7 @@ export default function Portfolio() {
   return (
     <div className="portfolio">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Montserrat:wght@300;400;500;600;700&family=Cinzel:wght@400;600;700&display=swap');
 
         * {
           margin: 0;
@@ -411,15 +538,35 @@ export default function Portfolio() {
         }
 
         :root {
-          --primary: #CDA45E;
-          --primary-dark: #A58344;
-          --accent: #F5F5DC;
+          /* Luxury Gold Palette */
+          --luxury-gold: #D4AF37;
+          --warm-glow: #FFD966;
+          --muted-gold: #B29E82;
+          --panel-overlay: #3A2D24;
+          
+          /* Dark Backgrounds */
           --dark: #0A0A0A;
           --dark-soft: #1A1A1A;
           --dark-lighter: #2A2A2A;
-          --text: #E8E8E8;
-          --text-dim: #999999;
+          
+          /* Text Colors */
+          --text-hero: #FFD966;
+          --text-heading: #D4AF37;
+          --text-body: #B29E82;
+          --text-dim: #8A7A6A;
           --white: #FFFFFF;
+          
+          /* Legacy compatibility */
+          --primary: #D4AF37;
+          --primary-dark: #A58344;
+          --accent: #FFD966;
+          --text: #B29E82;
+          
+          /* Glow Effects */
+          --glow-sm: 0 0 10px rgba(255, 217, 102, 0.3);
+          --glow-md: 0 0 20px rgba(255, 217, 102, 0.4), 0 0 40px rgba(212, 175, 55, 0.2);
+          --glow-lg: 0 0 30px rgba(255, 217, 102, 0.5), 0 0 60px rgba(212, 175, 55, 0.3);
+          --glow-intense: 0 0 20px rgba(255, 217, 102, 0.8), 0 0 40px rgba(212, 175, 55, 0.6);
         }
 
         html {
@@ -427,9 +574,9 @@ export default function Portfolio() {
         }
 
         body {
-          font-family: 'Work Sans', sans-serif;
+          font-family: 'Montserrat', 'Work Sans', sans-serif;
           background: var(--dark);
-          color: var(--text);
+          color: var(--text-body);
           overflow-x: hidden;
           line-height: 1.6;
         }
@@ -634,14 +781,12 @@ export default function Portfolio() {
           left: 0;
           height: 4px;
           background: linear-gradient(90deg, 
-            var(--primary) 0%, 
-            #E8C78F 50%,
-            var(--primary) 100%);
+            var(--warm-glow) 0%,    /* #FFD966 */
+            var(--luxury-gold) 50%, /* #D4AF37 */
+            var(--warm-glow) 100%); /* #FFD966 */
           z-index: 9999;
           transition: width 0.1s ease;
-          box-shadow: 
-            0 0 20px rgba(205, 164, 94, 0.8),
-            0 0 40px rgba(205, 164, 94, 0.4);
+          box-shadow: var(--glow-intense);   /* Intense gold glow */
         }
 
         /* PANELS WITH LARGE GAP - SAME SIZE */
@@ -996,8 +1141,8 @@ export default function Portfolio() {
           align-items: center;
           background: rgba(10, 10, 10, 0.98);
           backdrop-filter: blur(30px) saturate(180%);
-          border-bottom: 1px solid rgba(205, 164, 94, 0.15);
-          box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+          border-bottom: 1px solid rgba(212, 175, 55, 0.2);   /* Luxury gold border */
+          box-shadow: 0 4px 30px rgba(0, 0, 0, 0.7);
           animation: slideDown 0.8s ease-out;
         }
 
@@ -1009,12 +1154,13 @@ export default function Portfolio() {
         }
 
         .logo {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: 'Cinzel', 'Cormorant Garamond', serif;   /* Luxury serif */
           font-size: 1.8rem;
-          font-weight: 600;
-          color: var(--primary);
-          letter-spacing: 3px;
+          font-weight: 700;
+          color: var(--luxury-gold);   /* Luxury gold */
+          letter-spacing: 0.15em;
           position: relative;
+          text-shadow: var(--glow-sm);   /* Subtle glow */
         }
 
         .logo::after {
@@ -1023,8 +1169,9 @@ export default function Portfolio() {
           bottom: -5px;
           left: 0;
           width: 60%;
-          height: 1px;
-          background: var(--primary);
+          height: 2px;   /* Thicker */
+          background: var(--luxury-gold);
+          box-shadow: var(--glow-sm);
         }
 
         .nav-links {
@@ -1034,11 +1181,12 @@ export default function Portfolio() {
         }
 
         .nav-links a {
-          color: var(--text-dim);
+          color: var(--text-body);   /* Muted gold */
           text-decoration: none;
-          font-size: 0.9rem;
-          font-weight: 500;
-          letter-spacing: 1.5px;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.85rem;
+          font-weight: 600;
+          letter-spacing: 0.1em;
           text-transform: uppercase;
           position: relative;
           transition: all 0.3s ease;
@@ -1048,16 +1196,19 @@ export default function Portfolio() {
           content: '';
           position: absolute;
           bottom: -5px;
-          left: 0;
+          left: 50%;
+          transform: translateX(-50%);
           width: 0;
-          height: 1px;
-          background: var(--primary);
+          height: 2px;
+          background: var(--warm-glow);   /* Bright gold */
+          box-shadow: var(--glow-sm);
           transition: width 0.3s ease;
         }
 
         .nav-links a:hover,
         .nav-links a.active {
-          color: var(--primary);
+          color: var(--warm-glow);   /* Bright gold on hover */
+          text-shadow: var(--glow-sm);
         }
 
         .nav-links a:hover::after,
@@ -1133,17 +1284,23 @@ export default function Portfolio() {
         }
 
         .hero-title {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 5rem;
-          font-weight: 600;
+          font-family: 'Playfair Display', 'Cormorant Garamond', serif;   /* Luxury serif */
+          font-size: 5.5rem;
+          font-weight: 900;   /* Bolder */
           line-height: 1.1;
           margin-bottom: 2rem;
-          background: linear-gradient(135deg, var(--white) 0%, var(--primary) 100%);
+          background: linear-gradient(135deg, 
+            var(--white) 0%, 
+            var(--warm-glow) 30%,
+            var(--luxury-gold) 60%,
+            var(--white) 100%);
           background-size: 200% 200%;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          animation: fadeInUp 1s ease-out 0.4s both, gradientShift 5s ease infinite;
+          animation: fadeInUp 1s ease-out 0.4s both, gradientShift 8s ease infinite;
+          filter: drop-shadow(0 4px 30px rgba(212, 175, 55, 0.3));   /* Gold glow */
+          letter-spacing: -0.02em;
         }
 
         @keyframes gradientShift {
@@ -1156,9 +1313,10 @@ export default function Portfolio() {
         }
 
         .hero-description {
+          font-family: 'Montserrat', sans-serif;
           font-size: 1.2rem;
           line-height: 1.9;
-          color: var(--text-dim);
+          color: var(--muted-gold);   /* Muted gold for description */
           margin-bottom: 3rem;
           max-width: 700px;
           margin-left: auto;
@@ -1175,15 +1333,16 @@ export default function Portfolio() {
 
         .btn {
           display: inline-block;
-          padding: 1.1rem 2.8rem;
+          padding: 1.2rem 3rem;
+          font-family: 'Montserrat', sans-serif;
           font-size: 0.85rem;
           font-weight: 700;
-          letter-spacing: 2.5px;
+          letter-spacing: 0.15em;
           text-transform: uppercase;
           text-decoration: none;
-          border: 2px solid var(--primary);
+          border: 2px solid var(--luxury-gold);
           border-radius: 6px;
-          cursor: pointer;
+          cursor: none;   /* Custom cursor */
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           overflow: hidden;
@@ -1192,19 +1351,22 @@ export default function Portfolio() {
         }
 
         .btn-primary {
-          background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+          background: linear-gradient(135deg, var(--luxury-gold) 0%, var(--muted-gold) 100%);
           color: var(--dark);
-          box-shadow: 0 4px 20px rgba(205, 164, 94, 0.4);
+          border-color: var(--luxury-gold);
+          box-shadow: var(--glow-md), 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
         .btn-primary:hover {
           transform: translateY(-4px);
-          box-shadow: 0 8px 30px rgba(205, 164, 94, 0.6);
+          box-shadow: var(--glow-intense), 0 8px 30px rgba(0, 0, 0, 0.6);
+          border-color: var(--warm-glow);
         }
 
         .btn-secondary {
-          background: rgba(205, 164, 94, 0.05);
-          color: var(--primary);
+          background: rgba(212, 175, 55, 0.08);
+          color: var(--luxury-gold);
+          border-color: var(--luxury-gold);
           backdrop-filter: blur(10px);
         }
 
@@ -1215,14 +1377,15 @@ export default function Portfolio() {
           left: -100%;
           width: 100%;
           height: 100%;
-          background: var(--primary);
+          background: var(--luxury-gold);
           transition: left 0.3s ease;
           z-index: -1;
         }
 
         .btn-secondary:hover {
           color: var(--dark);
-          transform: translateY(-3px);
+          transform: translateY(-4px);
+          box-shadow: var(--glow-md), 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
         .btn-secondary:hover::before {
@@ -1349,10 +1512,12 @@ export default function Portfolio() {
         }
 
         .section-title {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 3.5rem;
-          font-weight: 600;
-          color: var(--white);
+          font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+          font-size: 4rem;   /* Bigger */
+          font-weight: 700;
+          color: var(--luxury-gold);   /* Luxury gold */
+          text-shadow: var(--glow-md);   /* Gold glow */
+          letter-spacing: -0.01em;
         }
 
         .about-content {
@@ -1575,18 +1740,19 @@ export default function Portfolio() {
           }
         }
 
-        /* PREMIUM SERVICES CAROUSEL */
+        /* PREMIUM SERVICES CAROUSEL - FIXED CONSTRAINTS */
         .services-carousel-container {
-          max-width: 1400px;
+          max-width: 1600px;          /* Wider! Was 1400px */
           margin: 0 auto;
           position: relative;
-          padding: 0 80px;
+          padding: 60px 100px;        /* More generous padding for hover space */
           z-index: 2;
         }
 
         .services-carousel {
-          overflow: hidden;
+          overflow: visible;          /* FIXED! Was hidden - this was clipping hover effects */
           position: relative;
+          padding: 40px 0;            /* Extra vertical padding for hover lift */
         }
 
         .services-track {
@@ -1658,12 +1824,12 @@ export default function Portfolio() {
         .service-card {
           flex: 0 0 calc(33.333%);
           min-width: calc(33.333%);
-          padding: 3.5rem 3rem;
+          padding: 3.5rem 2.8rem;      /* Better internal spacing */
           margin-right: 0;
-          background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(18, 18, 18, 0.95) 100%);
-          border: 1px solid rgba(205, 164, 94, 0.15);
-          border-radius: 8px;
-          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(18, 18, 18, 0.9) 100%);
+          border: 1px solid rgba(212, 175, 55, 0.2);  /* Luxury gold border */
+          border-radius: 12px;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
           position: relative;
           overflow: hidden;
           backdrop-filter: blur(10px);
@@ -1677,7 +1843,7 @@ export default function Portfolio() {
           left: -100%;
           width: 100%;
           height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(205, 164, 94, 0.08), transparent);
+          background: linear-gradient(90deg, transparent, rgba(255, 217, 102, 0.08), transparent);
           transition: left 0.8s ease;
         }
 
@@ -1686,31 +1852,47 @@ export default function Portfolio() {
         }
 
         .service-card:hover {
-          border-color: var(--primary);
-          transform: translateY(-12px) scale(1.02);
+          border-color: var(--warm-glow);   /* Gold glow on hover */
+          transform: translateY(-16px) scale(1.02);   /* More lift, won't clip now! */
           box-shadow: 
+            var(--glow-md),
             0 25px 50px rgba(0, 0, 0, 0.7),
-            0 0 0 1px rgba(205, 164, 94, 0.5),
-            inset 0 0 60px rgba(205, 164, 94, 0.05);
+            0 0 0 1px rgba(212, 175, 55, 0.5),
+            inset 0 0 60px rgba(255, 217, 102, 0.05);
         }
 
         .service-icon {
-          font-size: 2.5rem;
-          margin-bottom: 1.5rem;
+          width: 80px;
+          height: 80px;
+          margin-bottom: 2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: radial-gradient(circle, rgba(255, 217, 102, 0.1) 0%, transparent 70%);
+          border-radius: 50%;
+          transition: all 0.4s ease;
+        }
+
+        .service-card:hover .service-icon {
+          transform: scale(1.15);
+          background: radial-gradient(circle, rgba(255, 217, 102, 0.2) 0%, transparent 70%);
+          box-shadow: var(--glow-md);
         }
 
         .service-title {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 1.8rem;
+          font-family: 'Cinzel', 'Playfair Display', serif;   /* Luxury serif */
+          font-size: 2rem;
           font-weight: 600;
-          color: var(--white);
+          color: var(--warm-glow);   /* Bright gold */
           margin-bottom: 1rem;
+          letter-spacing: 0.02em;
         }
 
         .service-description {
+          font-family: 'Montserrat', sans-serif;
           font-size: 1rem;
           line-height: 1.7;
-          color: var(--text-dim);
+          color: var(--muted-gold);   /* Muted gold for body */
           margin-bottom: 1.5rem;
         }
 
@@ -1720,18 +1902,23 @@ export default function Portfolio() {
         }
 
         .service-features li {
-          font-size: 0.9rem;
-          color: var(--text-dim);
-          padding-left: 1.5rem;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.95rem;
+          color: var(--text-body);   /* Muted gold */
+          padding: 0.6rem 0 0.6rem 1.8rem;
           position: relative;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.3rem;
+          display: flex;
+          align-items: center;
         }
 
         .service-features li::before {
           content: '→';
           position: absolute;
           left: 0;
-          color: var(--primary);
+          color: var(--luxury-gold);   /* Gold arrow */
+          font-weight: 700;
+          font-size: 1.2rem;
         }
 
         #portfolio {
@@ -2501,7 +2688,9 @@ export default function Portfolio() {
             >
               {infiniteServices.map((service, index) => (
                 <div className="service-card" key={index}>
-                  <div className="service-icon">{service.icon}</div>
+                  <div className="service-icon">
+                    <CustomIcon type={service.iconType} />
+                  </div>
                   <h3 className="service-title">{service.title}</h3>
                   <p className="service-description">{service.description}</p>
                   <ul className="service-features">
