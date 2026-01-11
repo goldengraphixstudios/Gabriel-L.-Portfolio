@@ -539,7 +539,7 @@ export default function Portfolio() {
           box-shadow: 0 0 20px rgba(205, 164, 94, 0.6);
         }
 
-        /* PANELS WITH LARGE GAP - 35% and 60% = 25% GAP */
+        /* PANELS WITH LARGE GAP - SAME SIZE */
         .resume-toggle {
           position: fixed;
           right: 20px;
@@ -1133,33 +1133,28 @@ export default function Portfolio() {
           left: 0;
         }
 
-        /* REDESIGNED SAMPLE WORKS BUTTON - DIRECTLY ABOVE STATS */
+        /* SAMPLE WORKS BUTTON - RIGHT SIDE ABOVE STATS */
         .sample-works-wrapper {
-          margin-top: 4rem;
-          text-align: center;
+          position: absolute;
+          right: 5%;
+          bottom: 400px;
+          z-index: 4;
           animation: fadeInUp 1s ease-out 0.9s both;
-        }
-
-        .sample-works-divider {
-          width: 60px;
-          height: 1px;
-          background: var(--primary);
-          margin: 0 auto 2rem;
         }
 
         .sample-works-link {
           display: inline-flex;
           align-items: center;
-          gap: 0.8rem;
-          padding: 0.9rem 2.2rem;
-          font-size: 0.85rem;
+          gap: 0.6rem;
+          padding: 0.8rem 1.8rem;
+          font-size: 0.8rem;
           font-weight: 600;
           letter-spacing: 2px;
           text-transform: uppercase;
           text-decoration: none;
           color: var(--primary);
-          border: 1px solid rgba(205, 164, 94, 0.3);
-          background: rgba(205, 164, 94, 0.05);
+          border: 1px solid rgba(205, 164, 94, 0.4);
+          background: rgba(205, 164, 94, 0.08);
           backdrop-filter: blur(10px);
           transition: all 0.3s ease;
           position: relative;
@@ -1186,7 +1181,7 @@ export default function Portfolio() {
           color: var(--dark);
           border-color: var(--primary);
           transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(205, 164, 94, 0.3);
+          box-shadow: 0 8px 25px rgba(205, 164, 94, 0.4);
         }
 
         .sample-works-link span {
@@ -1198,7 +1193,7 @@ export default function Portfolio() {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 3rem;
-          margin-top: 3rem;
+          margin-top: 5rem;
           padding-top: 3rem;
           border-top: 1px solid rgba(205, 164, 94, 0.2);
           animation: fadeInUp 1s ease-out 1s both;
@@ -1501,6 +1496,8 @@ export default function Portfolio() {
         #contact {
           padding: 120px 5%;
           background: var(--dark);
+          position: relative;
+          z-index: 10;
         }
 
         .contact-content {
@@ -1509,6 +1506,8 @@ export default function Portfolio() {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 80px;
+          position: relative;
+          z-index: 10;
         }
 
         .contact-info {
@@ -1556,10 +1555,14 @@ export default function Portfolio() {
           background: var(--dark-soft);
           padding: 3rem;
           border: 1px solid rgba(205, 164, 94, 0.1);
+          position: relative;
+          z-index: 100;
         }
 
         .form-group {
           margin-bottom: 2rem;
+          position: relative;
+          z-index: 100;
         }
 
         .form-group label {
@@ -1570,6 +1573,8 @@ export default function Portfolio() {
           letter-spacing: 2px;
           color: var(--text-dim);
           margin-bottom: 0.5rem;
+          position: relative;
+          z-index: 100;
         }
 
         .form-group input,
@@ -1583,6 +1588,14 @@ export default function Portfolio() {
           font-family: 'Work Sans', sans-serif;
           font-size: 1rem;
           transition: all 0.3s ease;
+          position: relative;
+          z-index: 100;
+          cursor: text;
+          pointer-events: all;
+        }
+
+        .form-group select {
+          cursor: pointer;
         }
 
         .form-group input:focus,
@@ -1610,6 +1623,9 @@ export default function Portfolio() {
           text-transform: uppercase;
           cursor: pointer;
           transition: all 0.3s ease;
+          position: relative;
+          z-index: 100;
+          pointer-events: all;
         }
 
         .submit-btn:hover {
@@ -1700,6 +1716,10 @@ export default function Portfolio() {
           }
 
           .left-decorations {
+            display: none;
+          }
+
+          .sample-works-wrapper {
             display: none;
           }
 
@@ -1841,7 +1861,7 @@ export default function Portfolio() {
 
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
 
-      {/* RESUME BUTTON - 35% */}
+      {/* RESUME BUTTON - 35% - SAME SIZE */}
       <button className="resume-toggle" onClick={() => {
         setIsResumeOpen(!isResumeOpen);
         setIsAchievementsOpen(false);
@@ -1849,7 +1869,7 @@ export default function Portfolio() {
         Experience
       </button>
 
-      {/* ACHIEVEMENTS BUTTON - 60% */}
+      {/* ACHIEVEMENTS BUTTON - 60% - SAME SIZE */}
       <button className="achievements-toggle" onClick={() => {
         setIsAchievementsOpen(!isAchievementsOpen);
         setIsResumeOpen(false);
@@ -1991,6 +2011,19 @@ export default function Portfolio() {
           </div>
         </div>
 
+        {/* SAMPLE WORKS - RIGHT SIDE ABOVE STATS */}
+        <div className="sample-works-wrapper">
+          <a 
+            href="https://drive.google.com/drive/folders/1cYoTb8mDPcJl5WkJf13xKKSN-0-papHV?usp=sharing" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="sample-works-link"
+          >
+            <span>📂</span>
+            <span>View Sample Works</span>
+          </a>
+        </div>
+
         <div className="hero-content">
           <div className="hero-text">
             <div className="hero-subtitle">Digital Marketing Specialist</div>
@@ -2010,20 +2043,6 @@ export default function Portfolio() {
               </button>
             </div>
           </div>
-        </div>
-
-        {/* REDESIGNED SAMPLE WORKS - DIRECTLY ABOVE STATS */}
-        <div className="sample-works-wrapper">
-          <div className="sample-works-divider"></div>
-          <a 
-            href="https://drive.google.com/drive/folders/1cYoTb8mDPcJl5WkJf13xKKSN-0-papHV?usp=sharing" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="sample-works-link"
-          >
-            <span>📂</span>
-            <span>View Sample Works</span>
-          </a>
         </div>
 
         <div className="hero-stats">
