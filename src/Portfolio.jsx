@@ -6,7 +6,62 @@ export default function Portfolio() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isResumeOpen, setIsResumeOpen] = useState(false);
   const [isAchievementsOpen, setIsAchievementsOpen] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const heroRef = useRef(null);
+
+  // Services for carousel
+  const services = [
+    {
+      icon: "📱",
+      title: "Social Media Marketing",
+      description: "Comprehensive social media strategies that build communities and drive engagement",
+      features: ["Content Strategy & Planning", "Community Management", "Social Media Analytics", "Influencer Partnerships"]
+    },
+    {
+      icon: "🎬",
+      title: "Video Production",
+      description: "Professional video editing and production that brings your vision to life",
+      features: ["Video Editing & Post-Production", "Motion Graphics & Animation", "Color Grading & Sound Design", "YouTube Content Creation"]
+    },
+    {
+      icon: "🎨",
+      title: "Graphic Design",
+      description: "Stunning visual designs that communicate your brand message effectively",
+      features: ["Brand Identity Design", "Marketing Materials", "Social Media Graphics", "Print & Digital Assets"]
+    },
+    {
+      icon: "📊",
+      title: "Paid Advertising",
+      description: "Targeted ad campaigns that maximize ROI and drive conversions",
+      features: ["Facebook & Instagram Ads", "Google Ads Management", "Campaign Optimization", "Performance Analytics"]
+    },
+    {
+      icon: "✍️",
+      title: "Content Marketing",
+      description: "Compelling content that tells your story and engages your audience",
+      features: ["Content Strategy", "Copywriting", "Blog & Article Writing", "SEO Optimization"]
+    },
+    {
+      icon: "🚀",
+      title: "Growth Strategy",
+      description: "Comprehensive digital strategies that scale your business",
+      features: ["Marketing Audits", "Growth Planning", "Funnel Optimization", "Performance Tracking"]
+    },
+    {
+      icon: "💻",
+      title: "Website Development",
+      description: "Professional, responsive websites that convert visitors into customers",
+      features: ["Custom Website Design & Development", "E-commerce Solutions", "Landing Page Optimization", "Mobile-Responsive Design"]
+    }
+  ];
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % Math.ceil(services.length / 3));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + Math.ceil(services.length / 3)) % Math.ceil(services.length / 3));
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,6 +84,22 @@ export default function Portfolio() {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // Custom cursor tracking
+  useEffect(() => {
+    const moveCursor = (e) => {
+      const cursor = document.querySelector('body::before');
+      const cursorRing = document.querySelector('body::after');
+      
+      document.documentElement.style.setProperty('--cursor-x', `${e.clientX}px`);
+      document.documentElement.style.setProperty('--cursor-y', `${e.clientY}px`);
+    };
+
+    window.addEventListener('mousemove', moveCursor);
+    return () => {
+      window.removeEventListener('mousemove', moveCursor);
     };
   }, []);
 
@@ -308,6 +379,69 @@ export default function Portfolio() {
           margin: 0;
           padding: 0;
           box-sizing: border-box;
+          cursor: none;
+        }
+
+        html {
+          --cursor-x: 50%;
+          --cursor-y: 50%;
+        }
+
+        /* PREMIUM CUSTOM CURSOR */
+        body::before {
+          content: '';
+          position: fixed;
+          width: 12px;
+          height: 12px;
+          background: var(--primary);
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 10000;
+          left: var(--cursor-x);
+          top: var(--cursor-y);
+          transform: translate(-50%, -50%);
+          box-shadow: 
+            0 0 20px rgba(205, 164, 94, 0.8),
+            0 0 40px rgba(205, 164, 94, 0.4);
+          animation: cursorPulse 2s ease-in-out infinite;
+        }
+
+        body::after {
+          content: '';
+          position: fixed;
+          width: 40px;
+          height: 40px;
+          border: 2px solid rgba(205, 164, 94, 0.5);
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 10000;
+          left: var(--cursor-x);
+          top: var(--cursor-y);
+          transform: translate(-50%, -50%);
+          transition: all 0.15s ease-out;
+        }
+
+        @keyframes cursorPulse {
+          0%, 100% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+          }
+          50% {
+            transform: translate(-50%, -50%) scale(1.2);
+            opacity: 0.8;
+          }
+        }
+
+        a, button, input, select, textarea, .clickable {
+          cursor: none;
+        }
+
+        a:hover,
+        button:hover,
+        .clickable:hover,
+        .service-card:hover,
+        .carousel-arrow:hover {
+          cursor: none;
         }
 
         :root {
@@ -1316,15 +1450,96 @@ export default function Portfolio() {
           background: var(--dark);
         }
 
-        .services-grid {
+        /* PREMIUM SERVICES CAROUSEL */
+        .services-carousel-container {
           max-width: 1400px;
           margin: 0 auto;
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          position: relative;
+          padding: 0 80px;
+        }
+
+        .services-carousel {
+          overflow: hidden;
+          position: relative;
+        }
+
+        .services-track {
+          display: flex;
+          transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
           gap: 3rem;
         }
 
+        .services-grid {
+          display: flex;
+          gap: 3rem;
+          min-width: 100%;
+        }
+
+        .carousel-arrow {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 60px;
+          height: 60px;
+          background: linear-gradient(135deg, rgba(205, 164, 94, 0.15) 0%, rgba(205, 164, 94, 0.05) 100%);
+          border: 2px solid rgba(205, 164, 94, 0.3);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          color: var(--primary);
+          cursor: none;
+          backdrop-filter: blur(10px);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 10;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel-arrow:hover {
+          background: linear-gradient(135deg, rgba(205, 164, 94, 0.25) 0%, rgba(205, 164, 94, 0.15) 100%);
+          border-color: var(--primary);
+          transform: translateY(-50%) scale(1.1);
+          box-shadow: 
+            0 8px 30px rgba(0, 0, 0, 0.5),
+            0 0 40px rgba(205, 164, 94, 0.3);
+        }
+
+        .carousel-arrow.prev {
+          left: 0;
+        }
+
+        .carousel-arrow.next {
+          right: 0;
+        }
+
+        .carousel-dots {
+          display: flex;
+          justify-content: center;
+          gap: 12px;
+          margin-top: 4rem;
+        }
+
+        .carousel-dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: rgba(205, 164, 94, 0.2);
+          border: 2px solid rgba(205, 164, 94, 0.3);
+          cursor: none;
+          transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+          background: var(--primary);
+          border-color: var(--primary);
+          box-shadow: 0 0 20px rgba(205, 164, 94, 0.6);
+          transform: scale(1.3);
+        }
+
         .service-card {
+          flex: 0 0 calc(33.333% - 2rem);
+          min-width: calc(33.333% - 2rem);
           padding: 3.5rem;
           background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(18, 18, 18, 0.95) 100%);
           border: 1px solid rgba(205, 164, 94, 0.15);
@@ -1730,9 +1945,14 @@ export default function Portfolio() {
             gap: 50px;
           }
 
-          .services-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
+          .services-carousel-container {
+            padding: 0 60px;
+          }
+
+          .carousel-arrow {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
           }
 
           .portfolio-grid {
@@ -1803,8 +2023,19 @@ export default function Portfolio() {
             font-size: 2.5rem;
           }
 
-          .services-grid {
-            grid-template-columns: 1fr;
+          .services-carousel-container {
+            padding: 0 40px;
+          }
+
+          .carousel-arrow {
+            width: 45px;
+            height: 45px;
+            font-size: 18px;
+          }
+
+          .service-card {
+            flex: 0 0 100%;
+            min-width: 100%;
           }
 
           .skills-grid {
@@ -2121,103 +2352,48 @@ export default function Portfolio() {
           <div className="section-subtitle">Services</div>
           <h2 className="section-title">What I Offer</h2>
         </div>
-        <div className="services-grid">
-          <div className="service-card">
-            <div className="service-icon">📱</div>
-            <h3 className="service-title">Social Media Marketing</h3>
-            <p className="service-description">
-              Comprehensive social media strategies that build communities and drive engagement
-            </p>
-            <ul className="service-features">
-              <li>Content Strategy & Planning</li>
-              <li>Community Management</li>
-              <li>Social Media Analytics</li>
-              <li>Influencer Partnerships</li>
-            </ul>
+        
+        <div className="services-carousel-container">
+          <button className="carousel-arrow prev" onClick={prevSlide} aria-label="Previous services">
+            ←
+          </button>
+
+          <div className="services-carousel">
+            <div 
+              className="services-track" 
+              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            >
+              {Array.from({ length: Math.ceil(services.length / 3) }, (_, slideIndex) => (
+                <div className="services-grid" key={slideIndex}>
+                  {services.slice(slideIndex * 3, slideIndex * 3 + 3).map((service, index) => (
+                    <div className="service-card" key={index}>
+                      <div className="service-icon">{service.icon}</div>
+                      <h3 className="service-title">{service.title}</h3>
+                      <p className="service-description">{service.description}</p>
+                      <ul className="service-features">
+                        {service.features.map((feature, idx) => (
+                          <li key={idx}>{feature}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="service-card">
-            <div className="service-icon">🎬</div>
-            <h3 className="service-title">Video Production</h3>
-            <p className="service-description">
-              Professional video editing and production that brings your vision to life
-            </p>
-            <ul className="service-features">
-              <li>Video Editing & Post-Production</li>
-              <li>Motion Graphics & Animation</li>
-              <li>Color Grading & Sound Design</li>
-              <li>YouTube Content Creation</li>
-            </ul>
-          </div>
+          <button className="carousel-arrow next" onClick={nextSlide} aria-label="Next services">
+            →
+          </button>
 
-          <div className="service-card">
-            <div className="service-icon">🎨</div>
-            <h3 className="service-title">Graphic Design</h3>
-            <p className="service-description">
-              Stunning visual designs that communicate your brand message effectively
-            </p>
-            <ul className="service-features">
-              <li>Brand Identity Design</li>
-              <li>Marketing Materials</li>
-              <li>Social Media Graphics</li>
-              <li>Print & Digital Assets</li>
-            </ul>
-          </div>
-
-          <div className="service-card">
-            <div className="service-icon">📊</div>
-            <h3 className="service-title">Paid Advertising</h3>
-            <p className="service-description">
-              Targeted ad campaigns that maximize ROI and drive conversions
-            </p>
-            <ul className="service-features">
-              <li>Facebook & Instagram Ads</li>
-              <li>Google Ads Management</li>
-              <li>Campaign Optimization</li>
-              <li>Performance Analytics</li>
-            </ul>
-          </div>
-
-          <div className="service-card">
-            <div className="service-icon">✍️</div>
-            <h3 className="service-title">Content Marketing</h3>
-            <p className="service-description">
-              Compelling content that tells your story and engages your audience
-            </p>
-            <ul className="service-features">
-              <li>Content Strategy</li>
-              <li>Copywriting</li>
-              <li>Blog & Article Writing</li>
-              <li>SEO Optimization</li>
-            </ul>
-          </div>
-
-          <div className="service-card">
-            <div className="service-icon">🚀</div>
-            <h3 className="service-title">Growth Strategy</h3>
-            <p className="service-description">
-              Comprehensive digital strategies that scale your business
-            </p>
-            <ul className="service-features">
-              <li>Marketing Audits</li>
-              <li>Growth Planning</li>
-              <li>Funnel Optimization</li>
-              <li>Performance Tracking</li>
-            </ul>
-          </div>
-
-          <div className="service-card">
-            <div className="service-icon">💻</div>
-            <h3 className="service-title">Website Development</h3>
-            <p className="service-description">
-              Professional, responsive websites that convert visitors into customers
-            </p>
-            <ul className="service-features">
-              <li>Custom Website Design & Development</li>
-              <li>E-commerce Solutions</li>
-              <li>Landing Page Optimization</li>
-              <li>Mobile-Responsive Design</li>
-            </ul>
+          <div className="carousel-dots">
+            {Array.from({ length: Math.ceil(services.length / 3) }, (_, index) => (
+              <div
+                key={index}
+                className={`carousel-dot ${currentSlide === index ? 'active' : ''}`}
+                onClick={() => setCurrentSlide(index)}
+              />
+            ))}
           </div>
         </div>
       </section>
