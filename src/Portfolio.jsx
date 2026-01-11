@@ -1136,8 +1136,8 @@ export default function Portfolio() {
         /* SAMPLE WORKS BUTTON - RIGHT SIDE ABOVE STATS */
         .sample-works-wrapper {
           position: absolute;
-          right: 13%;
-          bottom: 420px;
+          right: 12%;
+          bottom: 440px;
           z-index: 4;
           animation: fadeInUp 1s ease-out 0.9s both;
         }
@@ -2019,7 +2019,6 @@ export default function Portfolio() {
             rel="noopener noreferrer"
             className="sample-works-link"
           >
-            <span>📂</span>
             <span>View Sample Works</span>
           </a>
         </div>
