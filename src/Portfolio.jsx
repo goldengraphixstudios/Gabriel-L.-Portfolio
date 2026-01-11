@@ -539,11 +539,11 @@ export default function Portfolio() {
           box-shadow: 0 0 20px rgba(205, 164, 94, 0.6);
         }
 
-        /* NON-OVERLAPPING PANELS */
+        /* PANELS WITH LARGE GAP - 35% and 60% = 25% GAP */
         .resume-toggle {
           position: fixed;
           right: 20px;
-          top: 40%;
+          top: 35%;
           transform: translateY(-50%);
           z-index: 999;
           background: var(--primary);
@@ -570,7 +570,7 @@ export default function Portfolio() {
         .achievements-toggle {
           position: fixed;
           right: 20px;
-          top: 52%;
+          top: 60%;
           transform: translateY(-50%);
           z-index: 999;
           background: var(--dark-soft);
@@ -1133,32 +1133,40 @@ export default function Portfolio() {
           left: 0;
         }
 
-        /* SAMPLE WORKS BUTTON */
-        .sample-works-section {
-          margin-top: 3rem;
+        /* REDESIGNED SAMPLE WORKS BUTTON - DIRECTLY ABOVE STATS */
+        .sample-works-wrapper {
+          margin-top: 4rem;
+          text-align: center;
           animation: fadeInUp 1s ease-out 0.9s both;
         }
 
-        .sample-works-btn {
+        .sample-works-divider {
+          width: 60px;
+          height: 1px;
+          background: var(--primary);
+          margin: 0 auto 2rem;
+        }
+
+        .sample-works-link {
           display: inline-flex;
           align-items: center;
           gap: 0.8rem;
-          padding: 1rem 2.5rem;
-          font-size: 0.9rem;
+          padding: 0.9rem 2.2rem;
+          font-size: 0.85rem;
           font-weight: 600;
           letter-spacing: 2px;
           text-transform: uppercase;
           text-decoration: none;
-          border: 2px solid var(--primary);
-          background: var(--dark-soft);
           color: var(--primary);
-          cursor: pointer;
+          border: 1px solid rgba(205, 164, 94, 0.3);
+          background: rgba(205, 164, 94, 0.05);
+          backdrop-filter: blur(10px);
           transition: all 0.3s ease;
           position: relative;
           overflow: hidden;
         }
 
-        .sample-works-btn::before {
+        .sample-works-link::before {
           content: '';
           position: absolute;
           top: 0;
@@ -1170,16 +1178,18 @@ export default function Portfolio() {
           z-index: 0;
         }
 
-        .sample-works-btn:hover::before {
+        .sample-works-link:hover::before {
           left: 0;
         }
 
-        .sample-works-btn:hover {
+        .sample-works-link:hover {
           color: var(--dark);
-          transform: translateY(-3px);
+          border-color: var(--primary);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(205, 164, 94, 0.3);
         }
 
-        .sample-works-btn span {
+        .sample-works-link span {
           position: relative;
           z-index: 1;
         }
@@ -1188,7 +1198,7 @@ export default function Portfolio() {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 3rem;
-          margin-top: 5rem;
+          margin-top: 3rem;
           padding-top: 3rem;
           border-top: 1px solid rgba(205, 164, 94, 0.2);
           animation: fadeInUp 1s ease-out 1s both;
@@ -1727,14 +1737,14 @@ export default function Portfolio() {
 
           .resume-toggle {
             right: 10px;
-            top: 38%;
+            top: 33%;
             padding: 0.6rem 0.8rem;
             font-size: 0.7rem;
           }
 
           .achievements-toggle {
             right: 10px;
-            top: 50%;
+            top: 58%;
             padding: 0.6rem 0.8rem;
             font-size: 0.7rem;
           }
@@ -1831,7 +1841,7 @@ export default function Portfolio() {
 
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }} />
 
-      {/* RESUME BUTTON - 40% */}
+      {/* RESUME BUTTON - 35% */}
       <button className="resume-toggle" onClick={() => {
         setIsResumeOpen(!isResumeOpen);
         setIsAchievementsOpen(false);
@@ -1839,7 +1849,7 @@ export default function Portfolio() {
         Experience
       </button>
 
-      {/* ACHIEVEMENTS BUTTON - 52% */}
+      {/* ACHIEVEMENTS BUTTON - 60% */}
       <button className="achievements-toggle" onClick={() => {
         setIsAchievementsOpen(!isAchievementsOpen);
         setIsResumeOpen(false);
@@ -2002,13 +2012,14 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* SAMPLE WORKS BUTTON - ABOVE STATS */}
-        <div className="sample-works-section">
+        {/* REDESIGNED SAMPLE WORKS - DIRECTLY ABOVE STATS */}
+        <div className="sample-works-wrapper">
+          <div className="sample-works-divider"></div>
           <a 
             href="https://drive.google.com/drive/folders/1cYoTb8mDPcJl5WkJf13xKKSN-0-papHV?usp=sharing" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="sample-works-btn"
+            className="sample-works-link"
           >
             <span>📂</span>
             <span>View Sample Works</span>
@@ -2295,42 +2306,11 @@ export default function Portfolio() {
             </div>
           </div>
 
-          <form className="contact-form" id="contactForm" onSubmit={(e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData);
-            
-            const subject = encodeURIComponent(`New Project Inquiry from ${data.name}`);
-            const body = encodeURIComponent(`
-CONTACT INFORMATION:
-═══════════════════════════════════════
-Name: ${data.name}
-Email: ${data.email}
-Phone: ${data.phone || 'Not provided'}
-
-PROJECT DETAILS:
-═══════════════════════════════════════
-Service: ${data.service}
-Budget: ${data.budget || 'Not specified'}
-
-Message:
-${data.message}
-
-═══════════════════════════════════════
-Sent from: Portfolio Contact Form
-            `);
-            
-            window.location.href = `mailto:goldengraphixstudios@gmail.com?subject=${subject}&body=${body}`;
-            
-            const successMessage = document.getElementById('successMessage');
-            if (successMessage) {
-              successMessage.classList.add('show');
-              e.target.reset();
-              setTimeout(() => {
-                successMessage.classList.remove('show');
-              }, 4000);
-            }
-          }}>
+          <form 
+            className="contact-form" 
+            action="https://formspree.io/f/mkogdyjp"
+            method="POST"
+          >
             <div className="form-group">
               <label htmlFor="name">Your Name *</label>
               <input type="text" id="name" name="name" required />
@@ -2404,11 +2384,6 @@ Sent from: Portfolio Contact Form
           </div>
         </div>
       </footer>
-
-      <div className="success-message" id="successMessage">
-        <h3>Message Sent!</h3>
-        <p>Thank you for reaching out. I'll get back to you within 24 hours.</p>
-      </div>
     </div>
   );
 }
